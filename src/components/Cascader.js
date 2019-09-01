@@ -158,8 +158,8 @@ class component extends Component{
         const state = _this.state;
         const update = _this.update;
         return (
-            <div style={{display:'inline-block'}} className="clearfix">
-                <Select placeholder="省" value={state.value.pro} style={{ width: 120, marginRight:10 }}>
+            <div style={{display:'inline-block'}} className="clearfix cascader">
+                <Select placeholder="省" value={state.value.pro} style={{ width: 120 }}>
                     {
                         state.address.shen.map((el,index)=>{
                             return <Select.Option value={el.provinceCode} key={index}>
@@ -173,7 +173,7 @@ class component extends Component{
                         })
                     }
                 </Select>
-                <Select placeholder="市" value={state.value.city} style={{ width: 120, marginRight:10 }}>
+                <Select placeholder="市" value={state.value.city} style={{ width: 120 }}>
                     {
                         state.address.city.map((el,index)=>{
                             return <Select.Option value={el.cityCode} key={index}>
@@ -187,7 +187,7 @@ class component extends Component{
                         })
                     }
                 </Select>
-                <Select placeholder="区/县" value={state.value.area} style={{ width: 120, marginRight:10 }}>
+                <Select placeholder="区/县" value={state.value.area} style={{ width: 120 }}>
                     {
                         state.address.area.map((el,index)=>{
                             return <Select.Option value={el.areaCode} key={index}>
@@ -201,7 +201,7 @@ class component extends Component{
                         })
                     }
                 </Select>
-                <Select placeholder="街道办" value={state.value.street} style={{ width: 120, marginRight:10 }}>
+                <Select placeholder="街道办" value={state.value.street} style={{ width: 120 }}>
                     {
                         state.address.street.map((el,index)=>{
                             return <Select.Option value={el.streetCode} key={index}>
@@ -215,7 +215,7 @@ class component extends Component{
                         })
                     }
                 </Select>
-                <Select placeholder="社区" value={state.value.comm} style={{ width: 120, marginRight:10 }}>
+                <Select placeholder="社区" value={state.value.comm} style={{ width: 120 }}>
                    {
                         state.address.comm.map((el,index)=>{
                             return <Select.Option value={el.communityCode} key={index}>

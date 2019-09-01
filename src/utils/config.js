@@ -97,6 +97,7 @@ export const config = {
 	// 用户列表
 	UserAdmin:{
 		urls:{
+			audit:'http://118.190.145.65:8888/flockpeak-shop/admin/userAdmin/audit',
 			updateIntegral:'http://118.190.145.65:8888/flockpeak-shop/admin/userAdmin/updateIntegral',
 			userExcel:'http://118.190.145.65:8888/flockpeak-shop/exportExcel/userExcel',
 			importExcelUser:'http://118.190.145.65:8888/flockpeak-shop/admin/userAdmin/importExcelUser',

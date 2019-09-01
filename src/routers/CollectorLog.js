@@ -108,12 +108,12 @@ class component extends Component{
                     { title: 'ID', dataIndex: 'id', key: 'id'}, 
                     { title: '车牌号', dataIndex: 'carNumber', key: 'carNumber'}, 
                     { title: '小区/单位名称', dataIndex: 'plotName', key: 'plotName'}, 
-                    { title: '小区桶数', dataIndex: 'barrelage', key: 'barrelage'}, 
+                    { title: '车辆总桶数', dataIndex: 'barrelage', key: 'barrelage'}, 
                     { title: '垃圾类别', dataIndex: 'rubbishType', key: 'rubbishType', render:(text)=>(
                         ['','可回收垃圾','有害垃圾','其它垃圾','餐厨垃圾'][text]
                     )}, 
                     { title: '当前重量（kg）', dataIndex: 'weight', key: 'weight'}, 
-                    { title: '总重量', dataIndex: 'laterWeight', key: 'laterWeight'}, 
+                    { title: '车辆总重量', dataIndex: 'laterWeight', key: 'laterWeight'}, 
                     { title: '时间', dataIndex: 'creationTime', key: 'creationTime'}, 
                     { title: '更多信息', dataIndex: 'more', key: 'more',render:(text,record)=>(
                         <a href="javascript:;" onClick={()=>{

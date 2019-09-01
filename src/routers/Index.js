@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Breadcrumb, Input, Icon, Select, Button, Table, Divider, message, Upload,
+import { Breadcrumb, Input, Icon, Select, Button, Table, Divider, message, Upload, Row, Col,
         Tag, DatePicker, LocaleProvider, Modal, Form } from 'antd';
 
 import moment from 'moment';
@@ -20,6 +20,7 @@ import Cascader from '../components/Cascader';
 // import { createForm } from 'rc-form';
 
 const { RangePicker } = DatePicker;
+const InputGroup = Input.Group;
 
 class component extends Component{
     constructor(props){
@@ -61,8 +62,13 @@ class component extends Component{
                 visUser:false,
                 visDeposit:false
             },
+            // 修改删除参数
             form:{
-
+                
+            },
+            // 审核参数
+            audit:{
+                checkState:'0'
             },
             // 工具条查询参数
             toolbarParams:{
@@ -217,6 +223,9 @@ class component extends Component{
                         }
                        </div>
                     ) }, 
+
+                    { title: '审批时间', dataIndex: 'checkTime', key: 'checkTime'}, 
+                    { title: '审核人', dataIndex: 'checkAdmin', key: 'checkAdmin'}, 
                     { title: '更多信息', dataIndex: 'more', key: 'more', render:(text,record)=>(
                         _this.state.permission.userAdminDetails ?
                         <a style={{color:'#1155cc'}} onClick={()=>{
@@ -668,6 +677,7 @@ class component extends Component{
                     addonAfter={<a onClick={()=>{
                         _this.initIndex();
                     }} href="javascript:;"><Icon type="search" /></a>}/>
+
                     <Input onChange={(e)=>{
                         update('set',addons(state,{
                             toolbarParams:{
@@ -701,140 +711,198 @@ class component extends Component{
                 </div>
                 
                 <div className="main-toolbar">
-                    详细地址：
-                    <Cascader data={state.toolbarParams} onChange={(data)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                pro:{$set:data.pro},
-                                city:{$set:data.city},
-                                area:{$set:data.area},
-                                street:{$set:data.street},
-                                comm:{$set:data.comm}
-                            }
-                        }))
-                    }}/>
-                </div>
-                <div className="main-toolbar">
-                    小区名字：<Input style={{width:200}} type="text" 
-                        placeholder="请输入小区名字"
-                        value={state.toolbarParams.plot} onChange={(e)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                plot:{
-                                    $set:e.target.value
-                                }    
-                            }
-                        }))
-                    }}/>
-                    <span style={{marginLeft:10}}>单元房号：</span><Input style={{width:40}} type="text" 
-                        value={state.toolbarParams.ridgepole} onChange={(e)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                ridgepole:{
-                                    $set:e.target.value
-                                }    
-                            }
-                        }))
-                    }}/>栋
-                    <Input style={{width:40}} type="text" 
-                        value={state.toolbarParams.room} onChange={(e)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                room:{
-                                    $set:e.target.value
-                                }    
-                            }
-                        }))
-                    }}/>房
-                    <span style={{marginLeft:10}}>所属物业公司：</span><Input style={{width:200}} type="text" 
-                        placeholder="请输入物业公司的名字"
-                        value={state.toolbarParams.companyName} onChange={(e)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                companyName:{
-                                    $set:e.target.value
-                                }    
-                            }
-                        }))
-                    }}/>
-                </div>
-                
-                
-                <div className="main-toolbar">
-                    用户来源：
-                    <Select value={state.toolbarParams.source} style={{ width: 120, marginRight:10 }} onChange={(value)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                source:{
-                                    $set:value    
-                                }
-                            }
-                        }))
-                    }}>
-                        <Select.Option value="">全部</Select.Option>
-                        <Select.Option value="1">微信</Select.Option>
-                        <Select.Option value="2">安卓</Select.Option>
-                        <Select.Option value="3">IOS</Select.Option>
-                        <Select.Option value="4">IC卡</Select.Option>
-                    </Select>
-
-                    用户类别：
-                    <Select value={state.toolbarParams.type} style={{ width: 120, marginRight:10 }} onChange={(value)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                type:{
-                                    $set:value    
-                                }
-                            }
-                        }))
-                    }}>
-                        <Select.Option value="">全部</Select.Option>
-                        <Select.Option value="1">居民</Select.Option>
-                        <Select.Option value="2">保洁员</Select.Option>
-                        <Select.Option value="3">物业公司</Select.Option>
-                        <Select.Option value="4">街道</Select.Option>
-                        <Select.Option value="5">城管局</Select.Option>
-                        <Select.Option value="6">公司员工</Select.Option>
-                    </Select>
-
-                </div>
-                <div className="main-toolbar">
-                    用户年龄段：
-                    <Select value={state.toolbarParams.age} style={{ width: 120, marginRight:10 }} onChange={(value)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                age:{
-                                    $set:value    
-                                }
-                            }
-                        }))
-                    }}>
-                        <Select.Option value="">全部</Select.Option>
-                        <Select.Option value="1">20岁以下</Select.Option>
-                        <Select.Option value="2">20-30</Select.Option>
-                        <Select.Option value="3">30-40</Select.Option>
-                        <Select.Option value="4">40-50</Select.Option>
-                        <Select.Option value="5">50岁以上</Select.Option>
-                    </Select>
-
-                    注册时间：
-                    <LocaleProvider locale={zh_CN}>
-                        <RangePicker value={state.toolbarParams.createTimeStart ? [moment(state.toolbarParams.createTimeStart, 'YYYY/MM/DD'),moment(state.toolbarParams.createTimeEnd, 'YYYY/MM/DD')] : []} onChange={(date,dateString)=>{
-                            // state.toolbarParams.createTimeStart = dateString[0];
-                            // state.toolbarParams.createTimeEnd = dateString[1];
+                    <span className="x-box">
+                        <Input
+                        addonBefore={<span>详细地址：</span>} 
+                        style={{ width: 100 }} 
+                        className="wrap-input-0"/>
+                        <Cascader data={state.toolbarParams} onChange={(data)=>{
                             update('set',addons(state,{
                                 toolbarParams:{
-                                    createTimeStart:{
-                                        $set:dateString[0]
-                                    },
-                                    createTimeEnd:{
-                                        $set:dateString[1]
-                                    }    
+                                    pro:{$set:data.pro},
+                                    city:{$set:data.city},
+                                    area:{$set:data.area},
+                                    street:{$set:data.street},
+                                    comm:{$set:data.comm}
                                 }
                             }))
-                            // _this.initIndex();
-                        }} />
-                    </LocaleProvider>
+                        }}/>
+                    </span>
+                </div>
+                <div className="main-toolbar">
+                    <Row>
+                        <Col span={6}>
+                            <Input onChange={(e)=>{
+                                update('set',addons(state,{
+                                    toolbarParams:{
+                                        plot:{
+                                            $set:e.target.value
+                                        }    
+                                    }
+                                }))
+                            }} value={state.toolbarParams.plot} 
+                            placeholder="请输入小区名字"
+                            addonBefore={<span>小区名字：</span>} 
+                            style={{ width: 300, marginRight: 10 }} />
+                        </Col>
+                        <Col span={6}>
+                            <InputGroup compact style = {{textAlign:'center'}}>
+                                <span style={{position:'relative',top:6}}>单元房号：</span>
+                                <Input style={{width:40}} type="text" 
+                                    value={state.toolbarParams.ridgepole} onChange={(e)=>{
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            ridgepole:{
+                                                $set:e.target.value
+                                            }    
+                                        }
+                                    }))
+                                }}/>
+                                <span style={{position:'relative',top:6,padding:'0px 10px'}}>栋</span>
+                                <Input style={{width:40}} type="text" 
+                                    value={state.toolbarParams.room} onChange={(e)=>{
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            room:{
+                                                $set:e.target.value
+                                            }    
+                                        }
+                                    }))
+                                }}/>
+                                <span style={{position:'relative',top:6,padding:'0px 10px'}}>房</span>
+                            </InputGroup>
+                        </Col>
+                        <Col span={6}>
+                            <Input onChange={(e)=>{
+                                update('set',addons(state,{
+                                    toolbarParams:{
+                                        companyName:{
+                                            $set:e.target.value
+                                        }    
+                                    }
+                                }))
+                            }} value={state.toolbarParams.companyName} 
+                            placeholder="请输入物业公司的名字"
+                            addonBefore={<span>所属物业公司：</span>} 
+                            style={{ width: 300, marginRight: 10 }} />
+                        </Col>
+                    </Row>
+                    
+                </div>
+                
+                
+                <div className="main-toolbar">
+                    <Row>
+                        <Col span={6}>
+                            <span className='x-box'>
+                                <Input
+                                    className="wrap-input-0"
+                                    addonBefore={<span>用户来源：</span>} 
+                                    style={{ width: 100 }} />
+                                <Select value={state.toolbarParams.source} style={{ width: 120, marginRight:10 }} onChange={(value)=>{
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            source:{
+                                                $set:value    
+                                            }
+                                        }
+                                    }))
+                                }}>
+                                    <Select.Option value="">全部</Select.Option>
+                                    <Select.Option value="1">微信</Select.Option>
+                                    <Select.Option value="2">安卓</Select.Option>
+                                    <Select.Option value="3">IOS</Select.Option>
+                                    <Select.Option value="4">IC卡</Select.Option>
+                                </Select>
+                            </span>
+                        </Col>
+                        <Col span={6}>
+                            <span className='x-box'>
+                                <Input
+                                className="wrap-input-0"
+                                addonBefore={<span>用户类别：</span>} 
+                                style={{ width: 100 }} />
+                                <Select value={state.toolbarParams.type} 
+                                    style={{ width: 120, marginRight:10 }} onChange={(value)=>{
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            type:{
+                                                $set:value    
+                                            }
+                                        }
+                                    }))
+                                }}>
+                                    <Select.Option value="">全部</Select.Option>
+                                    <Select.Option value="1">居民</Select.Option>
+                                    <Select.Option value="2">保洁员</Select.Option>
+                                    <Select.Option value="3">物业公司</Select.Option>
+                                    <Select.Option value="4">街道</Select.Option>
+                                    <Select.Option value="5">城管局</Select.Option>
+                                    <Select.Option value="6">公司员工</Select.Option>
+                                </Select>
+                            </span>
+                            
+                        </Col>
+                    </Row>
+                    
+
+                    
+
+                </div>
+                <div className="main-toolbar">
+                    <Row>
+                        <Col span={6}>
+                            <span className="x-box">
+                                <Input
+                                    className="wrap-input-0"
+                                    addonBefore={<span>用户年龄段：</span>}
+                                    style={{ width: 100 }} />
+                                <Select value={state.toolbarParams.age} style={{ width: 120 }} onChange={(value)=>{
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            age:{
+                                                $set:value    
+                                            }
+                                        }
+                                    }))
+                                }}>
+                                    <Select.Option value="">全部</Select.Option>
+                                    <Select.Option value="1">20岁以下</Select.Option>
+                                    <Select.Option value="2">20-30</Select.Option>
+                                    <Select.Option value="3">30-40</Select.Option>
+                                    <Select.Option value="4">40-50</Select.Option>
+                                    <Select.Option value="5">50岁以上</Select.Option>
+                                </Select>
+                            </span>
+                        </Col>
+                        <Col span={12}>
+                            <span className="x-box">
+                                <Input
+                                    className="wrap-input-0"
+                                    addonBefore={<span>注册时间：</span>} 
+                                    style={{ width: 100, marginRight: 0 }} />
+                                <LocaleProvider locale={zh_CN}>
+                                    <RangePicker value={state.toolbarParams.createTimeStart ? [moment(state.toolbarParams.createTimeStart, 'YYYY/MM/DD'),moment(state.toolbarParams.createTimeEnd, 'YYYY/MM/DD')] : []} onChange={(date,dateString)=>{
+                                        // state.toolbarParams.createTimeStart = dateString[0];
+                                        // state.toolbarParams.createTimeEnd = dateString[1];
+                                        update('set',addons(state,{
+                                            toolbarParams:{
+                                                createTimeStart:{
+                                                    $set:dateString[0]
+                                                },
+                                                createTimeEnd:{
+                                                    $set:dateString[1]
+                                                }    
+                                            }
+                                        }))
+                                        // _this.initIndex();
+                                    }} />
+                                </LocaleProvider>
+                            </span>
+                        </Col>
+                    </Row>
+                    
+                    
                 </div>
                 <div className="main-toolbar">
                     <Button style={{marginRight:10}} type="primary" onClick={()=>{
@@ -1003,7 +1071,12 @@ class component extends Component{
                             <Button style={{marginRight:10}} type="primary">数据导入</Button>
                         </Upload>:''
                     }
-                    
+                    <Button onClick={()=>{
+                        if(_this.state.indexTable.selectedRowKeys.length<1) return message.info('请选择需要审批的项');
+                        state.Modal.visAudit = true;
+                        state.audit={};
+                        _this.setState({});
+                    }} style={{marginRight:10}} type="primary">审批</Button>
                 </div>
                 <Table 
                     rowKey={record=>record.id} 
@@ -1285,6 +1358,48 @@ class component extends Component{
                         }} type="text" value={state.form.ridgepole}/>
                     </Form.Item>
                 </Modal>
+
+                <Modal title="审批"
+                  width = '680px'
+                  visible={state.Modal.visAudit}
+                  onOk={()=>{
+                    Ajax.post({
+                        url:config.UserAdmin.urls.audit,
+                        params:{
+                            ...state.audit,
+                            ids:_this.state.indexTable.selectedRowKeys
+                        },
+                        success(data){
+                            message.info('审批成功')
+                            update('set',addons(state,{
+                                Modal:{visAudit:{$set:false}}
+                            }))
+                        }
+                    })
+                  }}
+                  onCancel={()=>{
+                    update('set',addons(state,{
+                        Modal:{visAudit:{$set:false}}
+                    }))
+                  }}>  
+                    <Form.Item {...formItemLayout} label='备注'>
+                        <Input placeholder="请填写审批备注" onChange={(e)=>{
+                            state.audit.remark = e.target.value;
+                            _this.setState({})
+                        }} type="text" value={state.audit.remark}/>
+                    </Form.Item>
+                    <Form.Item {...formItemLayout} label='审核状态'>
+                        <Select onChange={(value)=>{
+                            state.audit.checkState = value;
+                            _this.setState({})
+                        }} style={{width:200}} value={state.audit.checkState}>
+                            <Select.Option value="0">待审核</Select.Option>
+                            <Select.Option value="1">通过</Select.Option>
+                            <Select.Option value="2">不通过</Select.Option>
+                        </Select>
+                    </Form.Item>
+                </Modal>
+
             </div>
         );
     }

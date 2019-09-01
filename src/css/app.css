@@ -264,6 +264,38 @@
 :global(.myupdate .ant-upload-list){
     display: none;
 }
+:global(.wrap-input-0 .ant-input){
+    display: none;
+}
+:global(.wrap-input-0 .ant-input-group-addon){
+    height: 32px;
+}
+:global(.wrap-input-0 .ant-input-group-addon:nth-of-type(2)){
+    /*background-color: transparent;*/
+}
+:global(.wrap-input-0 .ant-select-selection-selected-value){
+    width: 100%;
+    text-align: center;
+}
+:global(.wrap-input-0 .ant-select-selection__placeholder){
+    width: 100%;
+    text-align: center;
+}
+:global(.x-box .ant-calendar-picker-input.ant-input){
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+:global(.x-box .ant-select-selection--single){
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+:global(.cascader .ant-select.ant-select-enabled+.ant-select.ant-select-enabled){
+    margin-left: -2px;
+    position: relative;
+    z-index: 1;
+}
+
+
 .main{
     height: calc(100% - 60px);
     position: relative;
