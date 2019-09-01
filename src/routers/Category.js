@@ -353,39 +353,52 @@ class component extends Component{
 
                 </div>
                 <div className="main-toolbar">
-                    更新时间：
-                    <LocaleProvider locale={zh_CN}>
-                        <RangePicker value={state.toolbarParams.startTime ? [moment(state.toolbarParams.startTime, 'YYYY/MM/DD'),moment(state.toolbarParams.endTime, 'YYYY/MM/DD')] : []} onChange={(date,dateString)=>{
-                            // state.toolbarParams.startTime = dateString[0];
-                            // state.toolbarParams.endTime = dateString[1];
-                            update('set',addons(state,{
-                                toolbarParams:{
-                                    startTime:{
-                                        $set:dateString[0]
-                                    },
-                                    endTime:{
-                                        $set:dateString[1]
-                                    }    
-                                }
-                            }))
-                            // _this.initIndex();
-                        }} />
-                    </LocaleProvider>
+                    <span className='x-box'>
+                        <Input 
+                            addonBefore={<span>更新时间：</span>} 
+                            className="wrap-input-0"
+                            style={{ width: 100 }}/>
+                            <LocaleProvider locale={zh_CN}>
+                                <RangePicker value={state.toolbarParams.startTime ? [moment(state.toolbarParams.startTime, 'YYYY/MM/DD'),moment(state.toolbarParams.endTime, 'YYYY/MM/DD')] : []} onChange={(date,dateString)=>{
+                                    // state.toolbarParams.startTime = dateString[0];
+                                    // state.toolbarParams.endTime = dateString[1];
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            startTime:{
+                                                $set:dateString[0]
+                                            },
+                                            endTime:{
+                                                $set:dateString[1]
+                                            }    
+                                        }
+                                    }))
+                                    // _this.initIndex();
+                                }} />
+                            </LocaleProvider>
+                    </span>
+                    
+                    
                 </div>
 
                 <div className="main-toolbar">
-                    详细地址：
-                    <Cascader data={state.toolbarParams} onChange={(data)=>{
-                        console.log(data)
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                pro:{$set:data.pro},
-                                city:{$set:data.city},
-                                area:{$set:data.area},
-                                street:{$set:data.street}
-                            }
-                        }))
-                    }}/>
+                    <span className='x-box'>
+                        <Input 
+                            addonBefore={<span>详细地址：</span>} 
+                            className="wrap-input-0"
+                            style={{ width: 100 }}/>
+                            <Cascader data={state.toolbarParams} onChange={(data)=>{
+                                update('set',addons(state,{
+                                    toolbarParams:{
+                                        pro:{$set:data.pro},
+                                        city:{$set:data.city},
+                                        area:{$set:data.area},
+                                        street:{$set:data.street}
+                                    }
+                                }))
+                            }}/>
+                    </span>
+                    
+                    
                 </div>
                 <div className="main-toolbar">
                     

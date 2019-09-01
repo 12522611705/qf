@@ -221,18 +221,25 @@ class component extends Component{
                 </Breadcrumb>
                 
                 <div className="main-toolbar">
-                    区域选择：
-                    <Cascader data={state.toolbarParams} onChange={(data)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                pro:{$set:data.pro},
-                                city:{$set:data.city},
-                                area:{$set:data.area},
-                                street:{$set:data.street},
-                                comm:{$set:data.comm}
-                            }
-                        }))
-                    }}/>
+                    <span className='x-box'>
+                        <Input 
+                            addonBefore={<span>区域选择：</span>} 
+                            className="wrap-input-0"
+                            style={{ width: 100 }}/>
+                            <Cascader data={state.toolbarParams} onChange={(data)=>{
+                                update('set',addons(state,{
+                                    toolbarParams:{
+                                        pro:{$set:data.pro},
+                                        city:{$set:data.city},
+                                        area:{$set:data.area},
+                                        street:{$set:data.street},
+                                        comm:{$set:data.comm}
+                                    }
+                                }))
+                            }}/>
+                    </span>
+                    
+                    
                     <Input onChange={(e)=>{
                         update('set',addons(state,{
                             toolbarParams:{
@@ -244,30 +251,37 @@ class component extends Component{
                     }} value={state.toolbarParams.plot} 
                     placeholder="请输入小区名字"
                     addonBefore={<span>小区名字</span>} 
-                    style={{ width: 300, marginRight: 10 }} 
+                    style={{ width: 300, marginLeft: 10 }} 
                     addonAfter={<a onClick={()=>{
                         _this.initIndex();
                     }} href="javascript:;"><Icon type="search" /></a>}/>
                 </div>
                 <div className="main-toolbar">
-                    时间查询：
-                    <LocaleProvider locale={zh_CN}>
-                        <RangePicker value={state.toolbarParams.startTime ? [moment(state.toolbarParams.startTime, 'YYYY/MM/DD'),moment(state.toolbarParams.endTime, 'YYYY/MM/DD')] : []} onChange={(date,dateString)=>{
-                            // state.toolbarParams.startTime = dateString[0];
-                            // state.toolbarParams.endTime = dateString[1];
-                            update('set',addons(state,{
-                                toolbarParams:{
-                                    startTime:{
-                                        $set:dateString[0]
-                                    },
-                                    endTime:{
-                                        $set:dateString[1]
-                                    }    
-                                }
-                            }))
-                            // _this.initIndex();
-                        }} />
-                    </LocaleProvider>
+                    <span className='x-box'>
+                        <Input 
+                            addonBefore={<span>时间查询：</span>} 
+                            className="wrap-input-0"
+                            style={{ width: 100 }}/>
+                            <LocaleProvider locale={zh_CN}>
+                                <RangePicker value={state.toolbarParams.startTime ? [moment(state.toolbarParams.startTime, 'YYYY/MM/DD'),moment(state.toolbarParams.endTime, 'YYYY/MM/DD')] : []} onChange={(date,dateString)=>{
+                                    // state.toolbarParams.startTime = dateString[0];
+                                    // state.toolbarParams.endTime = dateString[1];
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            startTime:{
+                                                $set:dateString[0]
+                                            },
+                                            endTime:{
+                                                $set:dateString[1]
+                                            }    
+                                        }
+                                    }))
+                                    // _this.initIndex();
+                                }} />
+                            </LocaleProvider>
+                    </span>
+                    
+                    
                 </div>
                 <div className="main-toolbar">
                     <Button style={{marginRight:10}} type="primary" onClick={()=>{

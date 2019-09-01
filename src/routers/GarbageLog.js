@@ -269,16 +269,23 @@ class component extends Component{
                     <Breadcrumb.Item><a href="javascript:;">回收记录列表</a></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="main-toolbar">
-                    设备类型：<Select value={state.toolbarParams.type} onChange={(value)=>{
-                         update('set',addons(state,{
-                            toolbarParams:{
-                                type:{$set:value}
-                            }
-                         }))
-                    }} style={{ width: 120, marginRight:10 }}>
-                        <Select.Option value="1">办公室回收箱</Select.Option>
-                        <Select.Option value="2">移动称</Select.Option>
-                    </Select>
+                    <span className="x-box">
+                        <Input
+                            className="wrap-input-0"
+                            addonBefore={<span>设备类型：</span>}
+                            style={{ width: 100 }} />
+                        <Select value={state.toolbarParams.type} onChange={(value)=>{
+                             update('set',addons(state,{
+                                toolbarParams:{
+                                    type:{$set:value}
+                                }
+                             }))
+                        }} style={{ width: 120, marginRight:10 }}>
+                            <Select.Option value="1">办公室回收箱</Select.Option>
+                            <Select.Option value="2">移动称</Select.Option>
+                        </Select>
+                    </span>
+                    
                     <Input onChange={(e)=>{
                         update('set',addons(state,{
                             toolbarParams:{
@@ -303,19 +310,26 @@ class component extends Component{
                     placeholder="请输入IMEI号"
                     addonBefore={<span>IMEI号</span>} 
                     style={{ width: 200, marginRight: 10, marginBottom:10 }} />
-                    回收类型：<Select value={state.toolbarParams.category} onChange={(value)=>{
-                         update('set',addons(state,{
-                            toolbarParams:{
-                                category:{$set:value}
+                    <span className="x-box">
+                        <Input
+                            className="wrap-input-0"
+                            addonBefore={<span>回收类型：</span>}
+                            style={{ width: 100 }} />
+                        <Select value={state.toolbarParams.category} onChange={(value)=>{
+                             update('set',addons(state,{
+                                toolbarParams:{
+                                    category:{$set:value}
+                                }
+                             }))
+                        }} style={{ width: 120, marginRight:10 }}>
+                            {
+                                state.queryList.map((el,index)=>(
+                                    <Select.Option key={index} value={el}>{el}</Select.Option>
+                                ))
                             }
-                         }))
-                    }} style={{ width: 120, marginRight:10 }}>
-                        {
-                            state.queryList.map((el,index)=>(
-                                <Select.Option key={index} value={el}>{el}</Select.Option>
-                            ))
-                        }
-                    </Select>
+                        </Select>
+                    </span>
+                    
                 </div>
                 
                 <div className="main-toolbar">
@@ -362,18 +376,23 @@ class component extends Component{
                     
                 </div>
                 <div className="main-toolbar">
-                    详细地址：
-                    <Cascader data={state.toolbarParams} onChange={(data)=>{
-                        console.log(data)
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                pro:{$set:data.pro},
-                                city:{$set:data.city},
-                                area:{$set:data.area},
-                                street:{$set:data.street}
-                            }
-                        }))
-                    }}/>
+                    <span className="x-box">
+                        <Input
+                            className="wrap-input-0"
+                            addonBefore={<span>详细地址：</span>}
+                            style={{ width: 100 }} />
+                        <Cascader data={state.toolbarParams} onChange={(data)=>{
+                            update('set',addons(state,{
+                                toolbarParams:{
+                                    pro:{$set:data.pro},
+                                    city:{$set:data.city},
+                                    area:{$set:data.area},
+                                    street:{$set:data.street}
+                                }
+                            }))
+                        }}/>
+                    </span>
+                    
                 </div>
                 <div className="main-toolbar">
                     <Input onChange={(e)=>{

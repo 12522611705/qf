@@ -312,23 +312,29 @@ class component extends Component{
                     placeholder="请输入电话号码"
                     addonBefore={<span>电话号码</span>} 
                     style={{ width: 300, marginRight: 10 }}/>
-
-                    用户类别：<Select value={state.toolbarParams.userType} onChange={(value)=>{
-                         update('set',addons(state,{
-                            toolbarParams:{
-                                userType:{$set:value}
-                            }
-                         }))
-                    }} style={{ width: 120, marginRight:10 }}>
-                        <Select.Option value="">全部</Select.Option>
-                        <Select.Option value="0">普通用户</Select.Option>
-                        <Select.Option value="1">保洁员</Select.Option>
-                        <Select.Option value="2">物业公司工作人员</Select.Option>
-                        <Select.Option value="3">街道人员</Select.Option>
-                        <Select.Option value="4">城管局</Select.Option>
-                        <Select.Option value="5">司机</Select.Option>
-                        <Select.Option value="6">公司人员</Select.Option>
-                    </Select>
+                    <span className="x-box">
+                        <Input
+                            className="wrap-input-0"
+                            addonBefore={<span>用户类别：</span>}
+                            style={{ width: 100 }} />
+                        <Select value={state.toolbarParams.userType} onChange={(value)=>{
+                             update('set',addons(state,{
+                                toolbarParams:{
+                                    userType:{$set:value}
+                                }
+                             }))
+                        }} style={{ width: 120, marginRight:10 }}>
+                            <Select.Option value="">全部</Select.Option>
+                            <Select.Option value="0">普通用户</Select.Option>
+                            <Select.Option value="1">保洁员</Select.Option>
+                            <Select.Option value="2">物业公司工作人员</Select.Option>
+                            <Select.Option value="3">街道人员</Select.Option>
+                            <Select.Option value="4">城管局</Select.Option>
+                            <Select.Option value="5">司机</Select.Option>
+                            <Select.Option value="6">公司人员</Select.Option>
+                        </Select>
+                    </span>
+                    
 
                     
                 </div>
@@ -361,63 +367,87 @@ class component extends Component{
                     style={{ width: 300, marginRight: 10 }}/>
                 </div>
                 <div className="main-toolbar">
-                    提交时间：
-                    <LocaleProvider locale={zh_CN}>
-                        <RangePicker value={state.toolbarParams.startTime ? [moment(state.toolbarParams.startTime, 'YYYY/MM/DD'),moment(state.toolbarParams.endTime, 'YYYY/MM/DD')] : []} 
-                        style={{marginRight:10}}
-                        onChange={(date,dateString)=>{
-                            update('set',addons(state,{
-                                toolbarParams:{
-                                    startTime:{
-                                        $set:dateString[0]
-                                    },
-                                    endTime:{
-                                        $set:dateString[1]
-                                    }    
-                                }
-                            }))
-                        }} />
-                    </LocaleProvider>
-                    审核时间：
-                    <LocaleProvider locale={zh_CN}>
-                        <RangePicker value={state.toolbarParams.updateStartTime ? [moment(state.toolbarParams.updateStartTime, 'YYYY/MM/DD'),moment(state.toolbarParams.updateEndTime, 'YYYY/MM/DD')] : []} 
-                        onChange={(date,dateString)=>{
-                            update('set',addons(state,{
-                                toolbarParams:{
-                                    updateStartTime:{
-                                        $set:dateString[0]
-                                    },
-                                    updateEndTime:{
-                                        $set:dateString[1]
-                                    }    
-                                }
-                            }))
-                        }} />
-                    </LocaleProvider>
+                    
+                    
+                    <span className='x-box'>
+                        <Input 
+                            addonBefore={<span>提交时间：</span>} 
+                            className="wrap-input-0"
+                            style={{ width: 100 }}/>
+                            <LocaleProvider locale={zh_CN}>
+                            <RangePicker value={state.toolbarParams.startTime ? [moment(state.toolbarParams.startTime, 'YYYY/MM/DD'),moment(state.toolbarParams.endTime, 'YYYY/MM/DD')] : []} 
+                            style={{marginRight:10}}
+                            onChange={(date,dateString)=>{
+                                update('set',addons(state,{
+                                    toolbarParams:{
+                                        startTime:{
+                                            $set:dateString[0]
+                                        },
+                                        endTime:{
+                                            $set:dateString[1]
+                                        }    
+                                    }
+                                }))
+                            }} />
+                        </LocaleProvider>
+                    </span>
+                    <span className='x-box'>
+                        <Input 
+                            addonBefore={<span>审核时间：</span>} 
+                            className="wrap-input-0"
+                            style={{ width: 100 }}/>
+                            <LocaleProvider locale={zh_CN}>
+                                <RangePicker value={state.toolbarParams.updateStartTime ? [moment(state.toolbarParams.updateStartTime, 'YYYY/MM/DD'),moment(state.toolbarParams.updateEndTime, 'YYYY/MM/DD')] : []} 
+                                onChange={(date,dateString)=>{
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            updateStartTime:{
+                                                $set:dateString[0]
+                                            },
+                                            updateEndTime:{
+                                                $set:dateString[1]
+                                            }    
+                                        }
+                                    }))
+                                }} />
+                            </LocaleProvider>
+                    </span>
+                    
+                    
                 </div>
                 <div className="main-toolbar">
-	                审核状态：<Select value={state.toolbarParams.state} onChange={(value)=>{
-                         update('set',addons(state,{
-                            toolbarParams:{
-                                state:{$set:value}
-                            }
-                         }))
-	                }} style={{ width: 120, marginRight:10 }}>
-	                    <Select.Option value="">全部</Select.Option>
-	                    <Select.Option value="1">待审核</Select.Option>
-	                    <Select.Option value="2">待提交</Select.Option>
-	                    <Select.Option value="3">审核通过</Select.Option>
-	                    <Select.Option value="4">审核不通过</Select.Option>
-	                </Select>
-                    审核人：<Input type="text" style={{width:200}} value={state.toolbarParams.adminName} 
-                    placeholder="请输入审核人姓名"
-                    onChange={(e)=>{
+                    <span className="x-box">
+                        <Input
+                            className="wrap-input-0"
+                            addonBefore={<span>审核状态：</span>}
+                            style={{ width: 100 }} />
+                        <Select value={state.toolbarParams.state} onChange={(value)=>{
+                             update('set',addons(state,{
+                                toolbarParams:{
+                                    state:{$set:value}
+                                }
+                             }))
+                        }} style={{ width: 120, marginRight:10 }}>
+                            <Select.Option value="">全部</Select.Option>
+                            <Select.Option value="1">待审核</Select.Option>
+                            <Select.Option value="2">待提交</Select.Option>
+                            <Select.Option value="3">审核通过</Select.Option>
+                            <Select.Option value="4">审核不通过</Select.Option>
+                        </Select>
+                    </span>
+	                <Input onChange={(e)=>{
                         update('set',addons(state,{
                             toolbarParams:{
-                                adminName:{$set:e.target.value}
+                                adminName:{
+                                    $set:e.target.value
+                                }    
                             }
                         }))
-                    }}/>
+                    }} value={state.toolbarParams.adminName} 
+                    placeholder="请输入审核人"
+                    addonBefore={<span>审核人：</span>} 
+                    style={{ width: 300, marginRight: 10 }}/>
+
                 </div>
 
                 <div className="main-toolbar">

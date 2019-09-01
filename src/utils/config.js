@@ -55,6 +55,7 @@ export const config = {
 	// 查询设备管理
 	Garbage:{
 		urls:{
+			audit:'http://118.190.145.65:8888/flockpeak-shop/admin/garbageAdmin/audit',
 			add:'http://118.190.145.65:8888/flockpeak-shop/admin/garbageAdmin/add',
 			delete:'http://118.190.145.65:8888/flockpeak-shop/admin/garbageAdmin/delete',
 			importExcelGarbage:'http://118.190.145.65:8888/flockpeak-shop/admin/garbageAdmin/importExcelGarbage',
@@ -63,6 +64,7 @@ export const config = {
 		},
 		permission:{
 			'/flockpeak-shop/admin/garbageAdmin/add':'add',
+			'/flockpeak-shop/admin/garbageAdmin/audit':'audit',
 			'/flockpeak-shop/admin/garbageAdmin/delete':'delete',
 			'/flockpeak-shop/admin/garbageAdmin/importExcelGarbage':'importExcelGarbage',
 			'/flockpeak-shop/admin/garbageAdmin/list':'list',
@@ -119,6 +121,7 @@ export const config = {
 		},
 		router:{},
 		permission:{
+			'/flockpeak-shop/admin/userAdmin/audit':'audit',
 			'/flockpeak-shop/admin/userAdmin/importExcelUser':'importExcelUser',
 			'/flockpeak-shop/exportExcel/userExcel':'userExcel',
 			'/flockpeak-shop/admin/userAdmin/updateIntegral':'updateIntegral',
@@ -160,6 +163,7 @@ export const config = {
 	// 环卫车管理
 	SanitationCarAdmin:{
 		urls:{
+			audit:'http://118.190.145.65:8888/flockpeak-shop/admin/sanitationCarAdmin/audit',
 			list:'http://118.190.145.65:8888/flockpeak-shop/admin/sanitationCarAdmin/list',		
 			update:'http://118.190.145.65:8888/flockpeak-shop/admin/sanitationCarAdmin/update',		
 			delete:'http://118.190.145.65:8888/flockpeak-shop/admin/sanitationCarAdmin/delete',		
@@ -174,6 +178,7 @@ export const config = {
             '/flockpeak-shop/admin/sanitationCarAdmin/add':'add',
             '/flockpeak-shop/admin/sanitationCarAdmin/update':'update',
             '/flockpeak-shop/admin/sanitationCarAdmin/list':'list',
+            '/flockpeak-shop/admin/sanitationCarAdmin/audit':'audit',
             '/flockpeak-shop/admin/sanitationCarAdmin/details':'details'
 		}
 	},
@@ -223,6 +228,7 @@ export const config = {
 	// 推文管理
 	Notification:{
 		urls:{
+			audit:'http://118.190.145.65:8888/flockpeak-shop/admin/notificationAdmin/audit',
 			notificationAdd:'http://118.190.145.65:8888/flockpeak-shop/admin/notificationAdmin/notificationAdd',
 			notificationDelete:'http://118.190.145.65:8888/flockpeak-shop/admin/notificationAdmin/notificationDelete',
 			notificationList:'http://118.190.145.65:8888/flockpeak-shop/admin/notificationAdmin/notificationList',
@@ -231,6 +237,7 @@ export const config = {
 			exportNotificationExcel:'http://118.190.145.65:8888/flockpeak-shop/exportExcel/exportNotificationExcel'
 		},
 		permission:{
+			'/flockpeak-shop/admin/notificationAdmin/audit':'audit',
 			'/flockpeak-shop/admin/notificationAdmin/notificationList':'notificationList',
 			'/flockpeak-shop/admin/notificationAdmin/notificationAdd':'notificationAdd',
 			'/flockpeak-shop/admin/notificationAdmin/notificationUpdate':'notificationUpdate',

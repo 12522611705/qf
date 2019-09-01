@@ -44,6 +44,7 @@ class component extends Component{
                 delete:false,
                 add:false,
                 update:false,
+                audit:false,
                 list:false,
                 details:false
             },
@@ -68,6 +69,8 @@ class component extends Component{
                         ['','可回收物','有害垃圾','其它垃圾','餐厨垃圾'][text]
                     )}, 
                     { title: '车辆管理员', dataIndex: 'adminName', key: 'adminName'}, 
+                    { title: '审批时间', dataIndex: 'checkTime', key: 'checkTime'}, 
+                    { title: '审核人', dataIndex: 'checkAdmin', key: 'checkAdmin'}, 
                     { title: 'GPS实时状态', dataIndex: 'gps', key: 'gps', render:(text,record)=>(
                         <span>
                             {_this.state.permission.details?
@@ -205,6 +208,10 @@ class component extends Component{
             },
             recordType:'add',
             record:{},
+            // 审核参数
+            audit:{
+                checkState:'1'
+            },
             newRecord:{
                 carName:'',
                 // driverName:'',
@@ -374,19 +381,25 @@ class component extends Component{
                     placeholder="请输入IMEI号"
                     addonBefore={<span>IMEI号</span>} 
                     style={{ width: 300, marginRight: 10, marginBottom:10 }} />
-
-                    环卫车类型：<Select value={state.toolbarParams.type} onChange={(value)=>{
-                         update('set',addons(state,{
-                            toolbarParams:{
-                                type:{$set:value}
-                            }
-                         }))
-                    }} style={{ width: 120, marginRight:10 }}>
-                        <Select.Option value="4">餐厨垃圾</Select.Option>
-                        <Select.Option value="1">可回收物</Select.Option>
-                        <Select.Option value="2">有害垃圾</Select.Option>
-                        <Select.Option value="3">其它垃圾</Select.Option>
-                    </Select>
+                    <span className="x-box">
+                        <Input
+                            className="wrap-input-0"
+                            addonBefore={<span>环卫车类型：</span>}
+                            style={{ width: 100 }} />
+                        <Select value={state.toolbarParams.type} onChange={(value)=>{
+                             update('set',addons(state,{
+                                toolbarParams:{
+                                    type:{$set:value}
+                                }
+                             }))
+                        }} style={{ width: 120, marginRight:10 }}>
+                            <Select.Option value="4">餐厨垃圾</Select.Option>
+                            <Select.Option value="1">可回收物</Select.Option>
+                            <Select.Option value="2">有害垃圾</Select.Option>
+                            <Select.Option value="3">其它垃圾</Select.Option>
+                        </Select>
+                    </span>
+                    
                 </div>
 
                 <div className="main-toolbar">
@@ -442,18 +455,25 @@ class component extends Component{
                     style={{ width: 300, marginRight: 10, marginBottom:10 }} />
                 </div>
                 <div className="main-toolbar">
-                    详细地址：
-                    <Cascader data={state.toolbarParams} onChange={(data)=>{
-                        console.log(data)
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                pro:{$set:data.pro},
-                                city:{$set:data.city},
-                                area:{$set:data.area},
-                                street:{$set:data.street}
-                            }
-                        }))
-                    }}/>
+                    <span className="x-box">
+                        <Input
+                            className="wrap-input-0"
+                            addonBefore={<span>详细地址：</span>}
+                            style={{ width: 100 }} />
+                        <Cascader data={state.toolbarParams} onChange={(data)=>{
+                            console.log(data)
+                            update('set',addons(state,{
+                                toolbarParams:{
+                                    pro:{$set:data.pro},
+                                    city:{$set:data.city},
+                                    area:{$set:data.area},
+                                    street:{$set:data.street}
+                                }
+                            }))
+                        }}/>
+                    </span>
+                    
+                    
                 </div>
                 
                 <div className="main-toolbar">
@@ -610,6 +630,17 @@ class component extends Component{
                         }}>
                         <Button style={{marginRight:10}} type="primary">数据导入</Button>
                     </Upload>
+                    {
+                        state.permission.audit ?
+                        <Button onClick={()=>{
+                            if(_this.state.indexTable.selectedRowKeys.length<1) return message.info('请选择需要审批的项');
+                            state.Modal.visAudit = true;
+                            state.audit={
+                                checkState:'1'
+                            };
+                            _this.setState({});
+                        }} style={{marginRight:10}} type="primary">审批</Button>:''    
+                    }
                 </div>
                 <Modal title={state.recordType=='add'?'添加环卫车':'修改环卫车记录'}
                    onOk={()=>{
@@ -773,6 +804,46 @@ class component extends Component{
                 <div style={{marginTop:-42,textAlign:'right'}}>
                     <span style={{paddingRight:10}}>共{ state.indexTable.pagination.total }条</span>
                 </div>
+                <Modal title="审批"
+                  width = '680px'
+                  visible={state.Modal.visAudit}
+                  onOk={()=>{
+                    Ajax.post({
+                        url:config.SanitationCarAdmin.urls.audit,
+                        params:{
+                            ...state.audit,
+                            ids:_this.state.indexTable.selectedRowKeys
+                        },
+                        success(data){
+                            message.info('审批成功')
+                            update('set',addons(state,{
+                                Modal:{visAudit:{$set:false}}
+                            }))
+                        }
+                    })
+                  }}
+                  onCancel={()=>{
+                    update('set',addons(state,{
+                        Modal:{visAudit:{$set:false}}
+                    }))
+                  }}>  
+                    <Form.Item {...formItemLayout} label='备注'>
+                        <Input placeholder="请填写审批备注" onChange={(e)=>{
+                            state.audit.remark = e.target.value;
+                            _this.setState({})
+                        }} type="text" value={state.audit.remark}/>
+                    </Form.Item>
+                    <Form.Item {...formItemLayout} label='审核状态'>
+                        <Select onChange={(value)=>{
+                            state.audit.checkState = value;
+                            _this.setState({})
+                        }} style={{width:200}} value={state.audit.checkState}>
+                            <Select.Option value="1">待审核</Select.Option>
+                            <Select.Option value="2">通过</Select.Option>
+                            <Select.Option value="3">不通过</Select.Option>
+                        </Select>
+                    </Form.Item>
+                </Modal>
             </div>
         );
     }

@@ -36,12 +36,18 @@ class component extends Component{
                 notificationAdd:false,
                 notificationUpdate:false,
                 notificationDelete:false,
+                audit:false,
                 notificationPublish:false,
             },
             Modal:{
-               visAdd:false
+               visAdd:false,
+               visAudit:false
             },
             record:{},
+            audit:{
+                remark:'',
+                checkState:'1'
+            },
             add:{
                 creationRoleName:'',
                 headline:'',
@@ -79,6 +85,8 @@ class component extends Component{
                     { title: '状态', dataIndex: 'status', key: 'status',render:(text)=>(
                         ['','待发布','已发布'][text]
                     )},
+                    { title: '审批时间', dataIndex: 'checkTime', key: 'checkTime'}, 
+                    { title: '审核人', dataIndex: 'checkAdmin', key: 'checkAdmin'}, 
                     { title: '发布时间', dataIndex: 'time', key: 'time' },
                 ],
                 data:[]
@@ -153,7 +161,7 @@ class component extends Component{
         Ajax.get({
             url:config.Notification.urls.notificationList,
             params:{
-                status:(params.status1 && params.status2) ? '' : (params.status1 && 1 ) || (params.status2 && 2 ),
+                status:(params.status1 && params.status2) ? '' : (params.status1 && 1 ) || (params.status2 && 2 ) || '',
                 headline:params.headline||'',
                 page:_this.state.indexTable.pagination.current||1,
                 pageSize:_this.state.indexTable.pagination.pageSize||10,
@@ -207,71 +215,99 @@ class component extends Component{
                 </Breadcrumb>
 
                 <div className="main-toolbar">
-                    推文状态：
-                    <Checkbox checked={state.toolbarParams.status1} onChange={(e)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                status1:{
-                                    $set:e.target.checked
-                                } 
-                            }
-                        }))
-                    }}>待发布</Checkbox>
-                    <Checkbox checked={state.toolbarParams.status2} onChange={(e)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                status2:{
-                                    $set:e.target.checked
-                                } 
-                            }
-                        }))
-                    }}>已发布</Checkbox>
-                    推文标题：
-                    <Input type='text' style={{width:200}} value={state.toolbarParams.headline} onChange={(e)=>{
+                    <span className="x-box">
+                        <Input 
+                            addonBefore={<span>推文状态：</span>} 
+                            className="wrap-input-0"
+                            addonAfter={<span>
+                                <Checkbox checked={state.toolbarParams.status1} onChange={(e)=>{
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            status1:{
+                                                $set:e.target.checked
+                                            } 
+                                        }
+                                    }))
+                                }}>待发布</Checkbox>
+                                <Checkbox checked={state.toolbarParams.status2} onChange={(e)=>{
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            status2:{
+                                                $set:e.target.checked
+                                            } 
+                                        }
+                                    }))
+                                }}>已发布</Checkbox>
+                            </span>}
+                            style={{ width: 296 }}/>
+                    </span>
+                    
+                    
+                    <Input onChange={(e)=>{
                         update('set',addons(state,{
                             toolbarParams:{
                                 headline:{
                                     $set:e.target.value
-                                } 
+                                }    
                             }
                         }))
-                    }}/>
-                    
+                    }} value={state.toolbarParams.headline} 
+                    addonBefore={<span>推文标题：</span>} 
+                    placeholder="请输入推文标题"
+                    style={{ width: 300, marginLeft: 10 }} 
+                    addonAfter={<a onClick={()=>{
+                        _this.initIndex();
+                    }} href="javascript:;"><Icon type="search" /></a>}/>
+
                 </div>
                 <div className="main-toolbar">
-                    创建时间：
-                    <LocaleProvider locale={zh_CN}>
-                        <RangePicker value={state.toolbarParams.createTimeStart ? [moment(state.toolbarParams.createTimeStart, 'YYYY/MM/DD'),moment(state.toolbarParams.createTimeEnd, 'YYYY/MM/DD')] : []} 
-                        style={{marginRight:10}}
-                        onChange={(date,dateString)=>{
-                            update('set',addons(state,{
-                                toolbarParams:{
-                                    createTimeStart:{
-                                        $set:dateString[0]
-                                    },
-                                    createTimeEnd:{
-                                        $set:dateString[1]
-                                    }    
-                                }
-                            }))
-                        }} />
-                    </LocaleProvider>
-                    发布时间：
-                    <LocaleProvider locale={zh_CN}>
-                        <RangePicker value={state.toolbarParams.startUpdateTime ? [moment(state.toolbarParams.startUpdateTime, 'YYYY/MM/DD'),moment(state.toolbarParams.endUpdateTime, 'YYYY/MM/DD')] : []} 
-                        onChange={(date,dateString)=>{
-                            update('set',addons(state,{
-                                toolbarParams:{
-                                    startUpdateTime:{
-                                        $set:dateString[0]
-                                    },
-                                    endUpdateTime:{
-                                        $set:dateString[1]
-                                    }    
-                                }
-                            }))
-                        }} />
-                    </LocaleProvider>
+                    <span className='x-box'>
+                        <Input 
+                            addonBefore={<span>创建时间：</span>} 
+                            className="wrap-input-0"
+                            style={{ width: 100 }}/>
+                            <LocaleProvider locale={zh_CN}>
+                                <RangePicker value={state.toolbarParams.createTimeStart ? [moment(state.toolbarParams.createTimeStart, 'YYYY/MM/DD'),moment(state.toolbarParams.createTimeEnd, 'YYYY/MM/DD')] : []} 
+                                style={{marginRight:10}}
+                                onChange={(date,dateString)=>{
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            createTimeStart:{
+                                                $set:dateString[0]
+                                            },
+                                            createTimeEnd:{
+                                                $set:dateString[1]
+                                            }    
+                                        }
+                                    }))
+                                }} />
+                            </LocaleProvider>
+                    </span>
+                    <span className='x-box'>
+                        <Input 
+                            addonBefore={<span>发布时间：</span>} 
+                            className="wrap-input-0"
+                            style={{ width: 100 }}/>
+                            <LocaleProvider locale={zh_CN}>
+                                <RangePicker value={state.toolbarParams.startUpdateTime ? [moment(state.toolbarParams.startUpdateTime, 'YYYY/MM/DD'),moment(state.toolbarParams.endUpdateTime, 'YYYY/MM/DD')] : []} 
+                                onChange={(date,dateString)=>{
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            startUpdateTime:{
+                                                $set:dateString[0]
+                                            },
+                                            endUpdateTime:{
+                                                $set:dateString[1]
+                                            }    
+                                        }
+                                    }))
+                                }} />
+                            </LocaleProvider>
+                    </span>
+                    
+                    
+                    
+                    
                 </div>
                 <div className="main-toolbar">
                     {
@@ -380,6 +416,17 @@ class component extends Component{
                     <Button type="primary" onClick={()=>{
                         window.open(config.Notification.urls.exportNotificationExcel+'?token='+localStorage.getItem('token')+formatSearch(state.toolbarParams));
                     }}>数据导出</Button>
+                    {
+                        state.permission.audit ?
+                        <Button onClick={()=>{
+                            if(state.selectedRowKeys.length<1) return message.info('请选择需要审批的项');
+                            state.Modal.visAudit = true;
+                            state.audit={
+                                checkState:'1'
+                            };
+                            _this.setState({});
+                        }} style={{marginLeft:10}} type="primary">审批</Button>:''    
+                    }
                     <Button onClick={()=>{
                         _this.initIndex();
                     }} type="primary" style={{marginLeft:10}}>查询</Button>
@@ -532,6 +579,48 @@ class component extends Component{
                         </div>
                     </Form.Item>
                 </Modal>
+
+                <Modal title="审批"
+                  width = '680px'
+                  visible={state.Modal.visAudit}
+                  onOk={()=>{
+                    Ajax.post({
+                        url:config.Notification.urls.audit,
+                        params:{
+                            ...state.audit,
+                            ids:_this.state.selectedRowKeys
+                        },
+                        success(data){
+                            message.info('审批成功')
+                            update('set',addons(state,{
+                                Modal:{visAudit:{$set:false}}
+                            }))
+                        }
+                    })
+                  }}
+                  onCancel={()=>{
+                    update('set',addons(state,{
+                        Modal:{visAudit:{$set:false}}
+                    }))
+                  }}>  
+                    <Form.Item {...formItemLayout} label='备注'>
+                        <Input placeholder="请填写审批备注" onChange={(e)=>{
+                            state.audit.remark = e.target.value;
+                            _this.setState({})
+                        }} type="text" value={state.audit.remark}/>
+                    </Form.Item>
+                    <Form.Item {...formItemLayout} label='审核状态'>
+                        <Select onChange={(value)=>{
+                            state.audit.checkState = value;
+                            _this.setState({})
+                        }} style={{width:200}} value={state.audit.checkState}>
+                            <Select.Option value="1">待审核</Select.Option>
+                            <Select.Option value="2">通过</Select.Option>
+                            <Select.Option value="3">不通过</Select.Option>
+                        </Select>
+                    </Form.Item>
+                </Modal>
+
             </div>
         );
     }

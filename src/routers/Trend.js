@@ -255,18 +255,25 @@ class component extends Component{
                 </Breadcrumb>
                 
                 <div className="main-toolbar">
-                    区域选择：
-                    <Cascader data={state.toolbarParams} onChange={(data)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                pro:{$set:data.pro},
-                                city:{$set:data.city},
-                                area:{$set:data.area},
-                                street:{$set:data.street},
-                                comm:{$set:data.comm}
-                            }
-                        }))
-                    }}/>
+                    <span className='x-box'>
+                        <Input 
+                            addonBefore={<span>区域选择：</span>} 
+                            className="wrap-input-0"
+                            style={{ width: 100 }}/>
+                            <Cascader data={state.toolbarParams} onChange={(data)=>{
+                                update('set',addons(state,{
+                                    toolbarParams:{
+                                        pro:{$set:data.pro},
+                                        city:{$set:data.city},
+                                        area:{$set:data.area},
+                                        street:{$set:data.street},
+                                        comm:{$set:data.comm}
+                                    }
+                                }))
+                            }}/>
+                    </span>
+                    
+                    
                     <Input onChange={(e)=>{
                         update('set',addons(state,{
                             toolbarParams:{
@@ -278,23 +285,30 @@ class component extends Component{
                     }} value={state.toolbarParams.plot} 
                     placeholder="请输入小区名字"
                     addonBefore={<span>小区名字</span>} 
-                    style={{ width: 300, marginRight: 10 }} 
+                    style={{ width: 300, marginLeft: 10 }} 
                     addonAfter={<a onClick={()=>{
                         _this.initIndex();
                     }} href="javascript:;"><Icon type="search" /></a>}/>
                 </div>
                 <div className="main-toolbar">
-                    选择周期：
-                    <Select value={state.toolbarParams.type} onChange={(value)=>{
-                         update('set',addons(state,{
-                            toolbarParams:{
-                                type:{$set:value}
-                            }
-                         }))
-                    }} style={{ width: 300, marginRight:10 }}>
-                        <Select.Option value="1">最近半年用户量发展趋势（按月）</Select.Option>
-                        <Select.Option value="2">最近3个月用户量发展趋势（按周）</Select.Option>
-                    </Select>
+                    <span className='x-box'>
+                        <Input 
+                            addonBefore={<span>选择周期：</span>} 
+                            className="wrap-input-0"
+                            style={{ width: 100 }}/>
+                            <Select value={state.toolbarParams.type} onChange={(value)=>{
+                                 update('set',addons(state,{
+                                    toolbarParams:{
+                                        type:{$set:value}
+                                    }
+                                 }))
+                            }} style={{ width: 300, marginRight:10 }}>
+                                <Select.Option value="1">最近半年用户量发展趋势（按月）</Select.Option>
+                                <Select.Option value="2">最近3个月用户量发展趋势（按周）</Select.Option>
+                            </Select>
+                    </span>
+                    
+                    
                 </div>
                 <div className="main-toolbar">
                     <Button style={{marginRight:10}} type="primary" onClick={()=>{

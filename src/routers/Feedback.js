@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Breadcrumb, Input, Icon, Select, Button, Table, Divider, Tag, Checkbox, Form, message,
+import { Breadcrumb, Input, Icon, Select, Button, Table, Divider, Tag, Checkbox, Form, message, Row, Col,
     DatePicker, LocaleProvider, Modal, Tree, Carousel } from 'antd';
 import moment from 'moment';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
@@ -263,72 +263,106 @@ class component extends Component{
                     
                 </div>
                 <div className="main-toolbar">
-                    用户来源：<Select value={state.toolbarParams.source} onChange={(value)=>{
-                         update('set',addons(state,{
-                            toolbarParams:{
-                                source:{$set:value}
-                            }
-                         }))
-                    }} style={{ width: 120, marginRight:10 }}>
-                        <Select.Option value="">全部</Select.Option>
-                        <Select.Option value="1">H5</Select.Option>
-                        <Select.Option value="2">安卓</Select.Option>
-                        <Select.Option value="3">IOS</Select.Option>
-                    </Select>
-                    用户类别：<Select value={state.toolbarParams.type} onChange={(value)=>{
-                         update('set',addons(state,{
-                            toolbarParams:{
-                                type:{$set:value}
-                            }
-                         }))
-                    }} style={{ width: 120, marginRight:10 }}>
-                        <Select.Option value="">全部</Select.Option>
-                        <Select.Option value="0">普通用户</Select.Option>
-                        <Select.Option value="1">保洁员</Select.Option>
-                        <Select.Option value="2">物业公司工作人员</Select.Option>
-                        <Select.Option value="3">街道人员</Select.Option>
-                        <Select.Option value="4">城管局</Select.Option>
-                        <Select.Option value="5">司机</Select.Option>
-                        <Select.Option value="6">公司人员</Select.Option>
-                    </Select>
+                    <Row>
+                        <Col span={6}>
+                            <span className='x-box'>
+                                <Input
+                                    className="wrap-input-0"
+                                    addonBefore={<span>用户来源：</span>} 
+                                    style={{ width: 100 }} />
+                                <Select value={state.toolbarParams.source} onChange={(value)=>{
+                                     update('set',addons(state,{
+                                        toolbarParams:{
+                                            source:{$set:value}
+                                        }
+                                     }))
+                                }} style={{ width: 120, marginRight:10 }}>
+                                    <Select.Option value="">全部</Select.Option>
+                                    <Select.Option value="1">H5</Select.Option>
+                                    <Select.Option value="2">安卓</Select.Option>
+                                    <Select.Option value="3">IOS</Select.Option>
+                                </Select>
+                            </span>
+                        </Col>
+                        <Col span={6}>
+                            <span className='x-box'>
+                                <Input
+                                className="wrap-input-0"
+                                addonBefore={<span>用户类别：</span>} 
+                                style={{ width: 100 }} />
+                                <Select value={state.toolbarParams.type} onChange={(value)=>{
+                                     update('set',addons(state,{
+                                        toolbarParams:{
+                                            type:{$set:value}
+                                        }
+                                     }))
+                                }} style={{ width: 120, marginRight:10 }}>
+                                    <Select.Option value="">全部</Select.Option>
+                                    <Select.Option value="0">普通用户</Select.Option>
+                                    <Select.Option value="1">保洁员</Select.Option>
+                                    <Select.Option value="2">物业公司工作人员</Select.Option>
+                                    <Select.Option value="3">街道人员</Select.Option>
+                                    <Select.Option value="4">城管局</Select.Option>
+                                    <Select.Option value="5">司机</Select.Option>
+                                    <Select.Option value="6">公司人员</Select.Option>
+                                </Select>
+                            </span>
+                            
+                        </Col>
+                    </Row>
                 </div>
                 <div className="main-toolbar">
-                    反馈时间：
-                    <LocaleProvider locale={zh_CN}>
-                        <RangePicker value={state.toolbarParams.createTimeStart ? [moment(state.toolbarParams.createTimeStart, 'YYYY/MM/DD'),moment(state.toolbarParams.createTimeEnd, 'YYYY/MM/DD')] : []} 
-                        style={{marginRight:10}}
-                        onChange={(date,dateString)=>{
-                            update('set',addons(state,{
-                                toolbarParams:{
-                                    createTimeStart:{
-                                        $set:dateString[0]
-                                    },
-                                    createTimeEnd:{
-                                        $set:dateString[1]
-                                    }    
-                                }
-                            }))
-                        }} />
-                    </LocaleProvider>
-                    处理结果：
-                    <Checkbox checked={state.toolbarParams.status1} onChange={(e)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                status1:{
-                                    $set:e.target.checked
-                                } 
-                            }
-                        }))
-                    }}>已完成</Checkbox>
-                    <Checkbox checked={state.toolbarParams.status2} onChange={(e)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                status2:{
-                                    $set:e.target.checked
-                                } 
-                            }
-                        }))
-                    }}>未完成</Checkbox>
+                    <span className='x-box'>
+                        <Input 
+                            addonBefore={<span>反馈时间：</span>} 
+                            className="wrap-input-0"
+                            style={{ width: 100 }}/>
+                            <LocaleProvider locale={zh_CN}>
+                                <RangePicker value={state.toolbarParams.createTimeStart ? [moment(state.toolbarParams.createTimeStart, 'YYYY/MM/DD'),moment(state.toolbarParams.createTimeEnd, 'YYYY/MM/DD')] : []} 
+                                style={{marginRight:10}}
+                                onChange={(date,dateString)=>{
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            createTimeStart:{
+                                                $set:dateString[0]
+                                            },
+                                            createTimeEnd:{
+                                                $set:dateString[1]
+                                            }    
+                                        }
+                                    }))
+                                }} />
+                            </LocaleProvider>
+                    </span>
+                    
+                    <span className="x-box">
+                        <Input 
+                            addonBefore={<span>处理结果：</span>} 
+                            className="wrap-input-0"
+                            addonAfter={<span>
+                                <Checkbox checked={state.toolbarParams.status1} onChange={(e)=>{
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            status1:{
+                                                $set:e.target.checked
+                                            } 
+                                        }
+                                    }))
+                                }}>已完成</Checkbox>
+                                <Checkbox checked={state.toolbarParams.status2} onChange={(e)=>{
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            status2:{
+                                                $set:e.target.checked
+                                            } 
+                                        }
+                                    }))
+                                }}>未完成</Checkbox>
+                            </span>}
+                            style={{ width: 296 }}/>
+                    </span>
+                    
+                    
                 </div>
 
                 <div className="main-toolbar">

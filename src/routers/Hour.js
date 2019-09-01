@@ -221,32 +221,46 @@ class component extends Component{
                 </Breadcrumb>
                 
                 <div className="main-toolbar">
-                    区域选择：
-                    <Cascader data={state.toolbarParams} onChange={(data)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                pro:{$set:data.pro},
-                                city:{$set:data.city},
-                                area:{$set:data.area},
-                                street:{$set:data.street},
-                                comm:{$set:data.comm}
-                            }
-                        }))
-                    }}/>
+                    <span className='x-box'>
+                        <Input 
+                            addonBefore={<span>区域选择：</span>} 
+                            className="wrap-input-0"
+                            style={{ width: 100 }}/>
+                            <Cascader data={state.toolbarParams} onChange={(data)=>{
+                                update('set',addons(state,{
+                                    toolbarParams:{
+                                        pro:{$set:data.pro},
+                                        city:{$set:data.city},
+                                        area:{$set:data.area},
+                                        street:{$set:data.street},
+                                        comm:{$set:data.comm}
+                                    }
+                                }))
+                            }}/>
+                    </span>
+                    
+                    
                     
                 </div>
 
                 <div className="main-toolbar">
-                    设备类型：<Select value={state.toolbarParams.type} onChange={(value)=>{
-                         update('set',addons(state,{
-                            toolbarParams:{
-                                type:{$set:value}
-                            }
-                         }))
-                    }} style={{ width: 120, marginRight:10 }}>
-                        <Select.Option value="1">办公室</Select.Option>
-                        <Select.Option value="2">移动称</Select.Option>
-                    </Select>
+                    <span className='x-box'>
+                        <Input 
+                            addonBefore={<span>设备类型：</span>} 
+                            className="wrap-input-0"
+                            style={{ width: 100 }}/>
+                            <Select value={state.toolbarParams.type} onChange={(value)=>{
+                                 update('set',addons(state,{
+                                    toolbarParams:{
+                                        type:{$set:value}
+                                    }
+                                 }))
+                            }} style={{ width: 120, marginRight:10 }}>
+                                <Select.Option value="1">办公室</Select.Option>
+                                <Select.Option value="2">移动称</Select.Option>
+                            </Select>
+                    </span>
+                    
 
                     <Input onChange={(e)=>{
                         update('set',addons(state,{
@@ -282,24 +296,31 @@ class component extends Component{
 
                 </div>
                 <div className="main-toolbar">
-                    时间查询：
-                    <LocaleProvider locale={zh_CN}>
-                        <RangePicker value={state.toolbarParams.startTime ? [moment(state.toolbarParams.startTime, 'YYYY/MM/DD'),moment(state.toolbarParams.endTime, 'YYYY/MM/DD')] : []} onChange={(date,dateString)=>{
-                            // state.toolbarParams.startTime = dateString[0];
-                            // state.toolbarParams.endTime = dateString[1];
-                            update('set',addons(state,{
-                                toolbarParams:{
-                                    startTime:{
-                                        $set:dateString[0]
-                                    },
-                                    endTime:{
-                                        $set:dateString[1]
-                                    }    
-                                }
-                            }))
-                            // _this.initIndex();
-                        }} />
-                    </LocaleProvider>
+                    <span className='x-box'>
+                        <Input 
+                            addonBefore={<span>时间查询：</span>} 
+                            className="wrap-input-0"
+                            style={{ width: 100 }}/>
+                            <LocaleProvider locale={zh_CN}>
+                                <RangePicker value={state.toolbarParams.startTime ? [moment(state.toolbarParams.startTime, 'YYYY/MM/DD'),moment(state.toolbarParams.endTime, 'YYYY/MM/DD')] : []} onChange={(date,dateString)=>{
+                                    // state.toolbarParams.startTime = dateString[0];
+                                    // state.toolbarParams.endTime = dateString[1];
+                                    update('set',addons(state,{
+                                        toolbarParams:{
+                                            startTime:{
+                                                $set:dateString[0]
+                                            },
+                                            endTime:{
+                                                $set:dateString[1]
+                                            }    
+                                        }
+                                    }))
+                                    // _this.initIndex();
+                                }} />
+                            </LocaleProvider>
+                    </span>
+                    
+                    
                 </div>
                 <div className="main-toolbar">
                     <Button style={{marginRight:10}} type="primary" onClick={()=>{

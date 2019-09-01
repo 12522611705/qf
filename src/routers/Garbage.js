@@ -46,6 +46,7 @@ class component extends Component{
                 add:false,
                 update:false,
                 importExcelGarbage:false,
+                audit:false,
                 list:false,
             },
             Modal :{
@@ -192,6 +193,10 @@ class component extends Component{
             newRecord:{
                 
             },
+            // 审核参数
+            audit:{
+                checkState:'1'
+            },
             form:{
 
             }
@@ -334,20 +339,26 @@ class component extends Component{
                     <Breadcrumb.Item><a href="javascript:;">设备管理</a></Breadcrumb.Item>
                 </Breadcrumb>
                 <div className="main-toolbar">
-                    
-                    设备类型：<Select value={state.toolbarParams.type} style={{ width: 120, marginRight:10 }} onChange={(value)=>{
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                type:{
-                                    $set:value    
+                    <span className="x-box">
+                        <Input
+                            className="wrap-input-0"
+                            addonBefore={<span>设备类型：</span>}
+                            style={{ width: 100 }} />
+                        <Select value={state.toolbarParams.type} style={{ width: 120, marginRight:10 }} onChange={(value)=>{
+                            update('set',addons(state,{
+                                toolbarParams:{
+                                    type:{
+                                        $set:value    
+                                    }
                                 }
-                            }
-                        }))
-                    }}>
-                        <Select.Option value="">全部</Select.Option>
-                        <Select.Option value="1">办公室回收箱</Select.Option>
-                        <Select.Option value="2">移动称</Select.Option>
-                    </Select>
+                            }))
+                        }}>
+                            <Select.Option value="">全部</Select.Option>
+                            <Select.Option value="1">办公室回收箱</Select.Option>
+                            <Select.Option value="2">移动称</Select.Option>
+                        </Select>
+                    </span>
+                    
                     <Input onChange={(e)=>{
                         update('set',addons(state,{
                             toolbarParams:{
@@ -433,18 +444,24 @@ class component extends Component{
                 </div>
 
                 <div className="main-toolbar">
-                    详细地址：
-                    <Cascader data={state.toolbarParams} onChange={(data)=>{
-                        console.log(data)
-                        update('set',addons(state,{
-                            toolbarParams:{
-                                pro:{$set:data.pro},
-                                city:{$set:data.city},
-                                area:{$set:data.area},
-                                street:{$set:data.street}
-                            }
-                        }))
-                    }}/>
+                    <span className="x-box">
+                        <Input
+                            className="wrap-input-0"
+                            addonBefore={<span>详细地址：</span>}
+                            style={{ width: 100 }} />
+                        <Cascader data={state.toolbarParams} onChange={(data)=>{
+                            update('set',addons(state,{
+                                toolbarParams:{
+                                    pro:{$set:data.pro},
+                                    city:{$set:data.city},
+                                    area:{$set:data.area},
+                                    street:{$set:data.street}
+                                }
+                            }))
+                        }}/>
+                    </span>
+                    
+                    
                 </div>
                 <div className="main-toolbar">
                     {
@@ -528,7 +545,18 @@ class component extends Component{
                             <Button style={{marginRight:10}} type="primary">数据导入</Button>
                         </Upload>:''    
                     }
-
+                    {
+                        state.permission.audit ?
+                        <Button onClick={()=>{
+                            if(_this.state.indexTable.selectedRowKeys.length<1) return message.info('请选择需要审批的项');
+                            state.Modal.visAudit = true;
+                            state.audit={
+                                checkState:'1'
+                            };
+                            _this.setState({});
+                        }} style={{marginRight:10}} type="primary">审批</Button>:''    
+                    }
+                    
                     
                 </div>
                 
@@ -651,7 +679,46 @@ class component extends Component{
                    visible={state.Modal.visBmap}>
                     <div style={{height:"400px"}} id={"allmap"}></div>
                 </Modal>
-
+                <Modal title="审批"
+                  width = '680px'
+                  visible={state.Modal.visAudit}
+                  onOk={()=>{
+                    Ajax.post({
+                        url:config.Garbage.urls.audit,
+                        params:{
+                            ...state.audit,
+                            ids:_this.state.indexTable.selectedRowKeys
+                        },
+                        success(data){
+                            message.info('审批成功')
+                            update('set',addons(state,{
+                                Modal:{visAudit:{$set:false}}
+                            }))
+                        }
+                    })
+                  }}
+                  onCancel={()=>{
+                    update('set',addons(state,{
+                        Modal:{visAudit:{$set:false}}
+                    }))
+                  }}>  
+                    <Form.Item {...formItemLayout} label='备注'>
+                        <Input placeholder="请填写审批备注" onChange={(e)=>{
+                            state.audit.remark = e.target.value;
+                            _this.setState({})
+                        }} type="text" value={state.audit.remark}/>
+                    </Form.Item>
+                    <Form.Item {...formItemLayout} label='审核状态'>
+                        <Select onChange={(value)=>{
+                            state.audit.checkState = value;
+                            _this.setState({})
+                        }} style={{width:200}} value={state.audit.checkState}>
+                            <Select.Option value="1">待审核</Select.Option>
+                            <Select.Option value="2">通过</Select.Option>
+                            <Select.Option value="3">不通过</Select.Option>
+                        </Select>
+                    </Form.Item>
+                </Modal>
             </div>
         );
     }

@@ -39,6 +39,7 @@ class component extends Component{
         this.update = update.bind(this);
         this.state = {
             permission:{
+                audit:false,
                 garbageOrderList:false,
                 depositList:false,
                 userAdminList:false,
@@ -68,7 +69,7 @@ class component extends Component{
             },
             // 审核参数
             audit:{
-                checkState:'0'
+                checkState:'1'
             },
             // 工具条查询参数
             toolbarParams:{
@@ -1071,12 +1072,18 @@ class component extends Component{
                             <Button style={{marginRight:10}} type="primary">数据导入</Button>
                         </Upload>:''
                     }
-                    <Button onClick={()=>{
-                        if(_this.state.indexTable.selectedRowKeys.length<1) return message.info('请选择需要审批的项');
-                        state.Modal.visAudit = true;
-                        state.audit={};
-                        _this.setState({});
-                    }} style={{marginRight:10}} type="primary">审批</Button>
+                    {
+                        state.permission.audit ?
+                        <Button onClick={()=>{
+                            if(_this.state.indexTable.selectedRowKeys.length<1) return message.info('请选择需要审批的项');
+                            state.Modal.visAudit = true;
+                            state.audit={
+                                checkState:'1'
+                            };
+                            _this.setState({});
+                        }} style={{marginRight:10}} type="primary">审批</Button>:''    
+                    }
+                    
                 </div>
                 <Table 
                     rowKey={record=>record.id} 
@@ -1393,9 +1400,9 @@ class component extends Component{
                             state.audit.checkState = value;
                             _this.setState({})
                         }} style={{width:200}} value={state.audit.checkState}>
-                            <Select.Option value="0">待审核</Select.Option>
-                            <Select.Option value="1">通过</Select.Option>
-                            <Select.Option value="2">不通过</Select.Option>
+                            <Select.Option value="1">待审核</Select.Option>
+                            <Select.Option value="2">通过</Select.Option>
+                            <Select.Option value="3">不通过</Select.Option>
                         </Select>
                     </Form.Item>
                 </Modal>
