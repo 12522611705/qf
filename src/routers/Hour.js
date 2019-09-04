@@ -217,7 +217,7 @@ class component extends Component{
             <div className="content">
                 <Breadcrumb>
                     <Breadcrumb.Item>数据统计</Breadcrumb.Item>
-                    <Breadcrumb.Item><a href="javascript:;">投放时间断统计</a></Breadcrumb.Item>
+                    <Breadcrumb.Item><a href="javascript:;">投放时间段统计</a></Breadcrumb.Item>
                 </Breadcrumb>
                 
                 <div className="main-toolbar">

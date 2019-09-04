@@ -806,6 +806,8 @@ class component extends Component{
                 </div>
                 <Modal title="审批"
                   width = '680px'
+                  okText="确定"
+                  cancelText="取消"
                   visible={state.Modal.visAudit}
                   onOk={()=>{
                     Ajax.post({
@@ -819,6 +821,7 @@ class component extends Component{
                             update('set',addons(state,{
                                 Modal:{visAudit:{$set:false}}
                             }))
+                            _this.initIndex();
                         }
                     })
                   }}

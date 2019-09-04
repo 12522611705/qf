@@ -231,7 +231,7 @@ class component extends Component{
                 center: ['50%', '60%'],
                 label: {
                     normal: {
-                        formatter: ' {b|{b}：}{c}',
+                        formatter: ' {b|{b}：}{c}%',
                         borderWidth: 1,
                         borderRadius: 4,
                         rich: {

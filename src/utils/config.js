@@ -74,11 +74,13 @@ export const config = {
 	//  回收种类及价格维护管理
 	Category:{
 		urls:{
+			audit:'http://118.190.145.65:8888/flockpeak-shop/admin/garbageCategoryAdmin/audit',
 			list:'http://118.190.145.65:8888/flockpeak-shop/admin/garbageCategoryAdmin/list',
 			add:'http://118.190.145.65:8888/flockpeak-shop/admin/garbageCategoryAdmin/add',
 			update:'http://118.190.145.65:8888/flockpeak-shop/admin/garbageCategoryAdmin/update'
 		},
 		permission:{
+			'/flockpeak-shop/admin/garbageCategoryAdmin/audit':'audit',
 			'/flockpeak-shop/admin/garbageCategoryAdmin/list':'list',
 			'/flockpeak-shop/admin/garbageCategoryAdmin/add':'add',
 			'/flockpeak-shop/admin/garbageCategoryAdmin/update':'update'

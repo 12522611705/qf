@@ -94,8 +94,8 @@ class component extends Component{
                             }}>点击查看</a>
                         </span>:''
                     )},
-                    { title: '设备类型', dataIndex: 'type', key: 'type', render:(text,record)=>(
-                        ['','办公室','移动称'][text]
+                    { title: '智能分类回收箱', dataIndex: 'type', key: 'type', render:(text,record)=>(
+                        ['','办公室','智能分类移动称'][text]
                     )}, 
                     { title: '设备编号', dataIndex: 'number', key: 'number'}, 
                     { title: '权属单位', dataIndex: 'company', key: 'company'}, 
@@ -272,17 +272,17 @@ class component extends Component{
                     <span className="x-box">
                         <Input
                             className="wrap-input-0"
-                            addonBefore={<span>设备类型：</span>}
-                            style={{ width: 100 }} />
+                            addonBefore={<span>智能分类回收箱：</span>}
+                            style={{ width: 150 }} />
                         <Select value={state.toolbarParams.type} onChange={(value)=>{
                              update('set',addons(state,{
                                 toolbarParams:{
                                     type:{$set:value}
                                 }
                              }))
-                        }} style={{ width: 120, marginRight:10 }}>
+                        }} style={{ width: 160, marginRight:10 }}>
                             <Select.Option value="1">办公室回收箱</Select.Option>
-                            <Select.Option value="2">移动称</Select.Option>
+                            <Select.Option value="2">智能分类移动称</Select.Option>
                         </Select>
                     </span>
                     

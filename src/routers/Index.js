@@ -1381,6 +1381,7 @@ class component extends Component{
                             update('set',addons(state,{
                                 Modal:{visAudit:{$set:false}}
                             }))
+                            _this.initIndex();
                         }
                     })
                   }}

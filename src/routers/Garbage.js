@@ -68,8 +68,8 @@ class component extends Component{
                 },
                 head:[
                     { title: 'ID', dataIndex: 'id', key: 'id'}, 
-                    { title: '设备类型', dataIndex: 'type', key: 'type',render:(text)=>(
-                        ['','办公室回收箱','移动称'][text]
+                    { title: '智能分类回收箱', dataIndex: 'type', key: 'type',render:(text)=>(
+                        ['','办公室回收箱','智能分类移动称'][text]
                     )}, 
                     { title: '设备编号', dataIndex: 'number', key: 'number'}, 
                     { title: 'IMEI号', dataIndex: 'imei', key: 'imei'}, 
@@ -105,7 +105,7 @@ class component extends Component{
                                     let label = new BMap.Label(`
                                         <div>
                                             <p>设备编号：${record.number}</p>
-                                            <p>设备类型：${['','办公室回收箱','移动称'][record.type]||''}</p>
+                                            <p>智能分类回收箱：${['','办公室回收箱','智能分类移动称'][record.type]||''}</p>
                                             <p>权属单位：${record.company}</p>
                                             <p>今日收集垃圾量：${record.weight||''}</p>
                                             <p>实时位置：${record.community}</p>
@@ -123,6 +123,8 @@ class component extends Component{
                             
                         }}>点击查看</a>
                     )}, 
+                    { title: '审批时间', dataIndex: 'checkTime', key: 'checkTime'}, 
+                    { title: '审核人', dataIndex: 'checkAdmin', key: 'checkAdmin'}, 
                     { title: '设备管理员', dataIndex: 'adminRole', key: 'adminRole'}, 
                     { title: '更多信息', dataIndex: 'operation', key: 'operation', render:(text,record)=>(
                         !_this.state.permission.details?
@@ -342,9 +344,9 @@ class component extends Component{
                     <span className="x-box">
                         <Input
                             className="wrap-input-0"
-                            addonBefore={<span>设备类型：</span>}
-                            style={{ width: 100 }} />
-                        <Select value={state.toolbarParams.type} style={{ width: 120, marginRight:10 }} onChange={(value)=>{
+                            addonBefore={<span>智能分类回收箱：</span>}
+                            style={{ width: 120 }} />
+                        <Select value={state.toolbarParams.type} style={{ width: 150, marginRight:10 }} onChange={(value)=>{
                             update('set',addons(state,{
                                 toolbarParams:{
                                     type:{
@@ -355,7 +357,7 @@ class component extends Component{
                         }}>
                             <Select.Option value="">全部</Select.Option>
                             <Select.Option value="1">办公室回收箱</Select.Option>
-                            <Select.Option value="2">移动称</Select.Option>
+                            <Select.Option value="2">智能分类移动称</Select.Option>
                         </Select>
                     </span>
                     
@@ -604,12 +606,12 @@ class component extends Component{
                             _this.updateForm(e.target.value,'address')
                         }} type="text" value={state.form.address}/>
                     </Form.Item>
-                    <Form.Item {...formItemLayout} label='设备类型'>
+                    <Form.Item {...formItemLayout} label='智能分类回收箱'>
                         <Select onChange={(value)=>{
                             _this.updateForm(value,'type')
                         }} style={{width:200}} value={state.form.type}>
                             <Select.Option value="1">办公室</Select.Option>
-                            <Select.Option value="2">移动称</Select.Option>
+                            <Select.Option value="2">智能分类移动称</Select.Option>
                         </Select>
                     </Form.Item>
                     <Form.Item {...formItemLayout} label='设备编号'>
@@ -694,6 +696,7 @@ class component extends Component{
                             update('set',addons(state,{
                                 Modal:{visAudit:{$set:false}}
                             }))
+                            _this.initIndex();
                         }
                     })
                   }}

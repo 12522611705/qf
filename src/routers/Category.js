@@ -46,9 +46,14 @@ class component extends Component{
                 add:false,
                 update:false,
                 list:false,
+                audit:false
             },
             Modal :{
-                visCate:false
+                visCate:false,
+                visAudit:false
+            },
+            audit:{
+                remark:''
             },
             queryList:[],
             // 表格数据
@@ -72,6 +77,8 @@ class component extends Component{
                     { title: '更新时间', dataIndex: 'updateTime', key: 'updateTime'}, 
                     { title: '操作人员', dataIndex: 'adminRole', key: 'adminRole'}, 
                     { title: '操作人员ID', dataIndex: 'adminRoleId', key: 'adminRoleId'}, 
+                    { title: '审批时间', dataIndex: 'checkTime', key: 'checkTime'}, 
+                    { title: '审核人', dataIndex: 'checkAdmin', key: 'checkAdmin'}, 
                     { title: '查看详情', dataIndex: 'operation', key: 'operation', render:(text,record)=>(
                         !_this.state.permission.details?
                         <span>
@@ -98,8 +105,8 @@ class component extends Component{
                                         <Form.Item {...formItemLayout} label='电话'>
                                             {record.tel||'--'}
                                         </Form.Item>
-                                        <Form.Item {...formItemLayout} label='设备类型'>
-                                            {['','办公室','移动称'][record.type]||'--'}
+                                        <Form.Item {...formItemLayout} label='智能分类回收箱'>
+                                            {['','办公室','智能分类移动称'][record.type]||'--'}
                                         </Form.Item>
                                         <Form.Item {...formItemLayout} label='种类编号'>
                                             {record.garbageNumber||'--'}
@@ -451,7 +458,17 @@ class component extends Component{
                     <Button style={{marginRight:10}} type="primary" onClick={()=>{
                         window.open(config.urls.exportCategoryExcel+'?token='+localStorage.getItem('token')+formatSearch(state.toolbarParams));
                     }}>数据导出</Button>
-
+                    {
+                        state.permission.audit ?
+                        <Button onClick={()=>{
+                            if(_this.state.indexTable.selectedRowKeys.length<1) return message.info('请选择需要审批的项');
+                            state.Modal.visAudit = true;
+                            state.audit={
+                                checkState:'1'
+                            };
+                            _this.setState({});
+                        }} style={{marginRight:10}} type="primary">审批</Button>:''    
+                    }
                 </div>
                 
                 <Table 
@@ -525,12 +542,12 @@ class component extends Component{
                             _this.updateForm(e.target.value,'tel')
                         }} type="text" value={state.form.tel}/>
                     </Form.Item>
-                    <Form.Item {...formItemLayout} label='设备类型'>
+                    <Form.Item {...formItemLayout} label='智能分类回收箱'>
                         <Select onChange={(value)=>{
                             _this.updateForm(value,'type')
                         }} style={{width:200}} value={state.form.type}>
                             <Select.Option value="1">办公室</Select.Option>
-                            <Select.Option value="2">移动称</Select.Option>
+                            <Select.Option value="2">智能分类移动称</Select.Option>
                         </Select>
                     </Form.Item>
 
@@ -541,7 +558,49 @@ class component extends Component{
                     </Form.Item>
                 </Modal>
 
-
+                <Modal title="审批"
+                  width = '680px'
+                  okText="确定"
+                  cancelText="取消"
+                  visible={state.Modal.visAudit}
+                  onOk={()=>{
+                    Ajax.post({
+                        url:config.Category.urls.audit,
+                        params:{
+                            ...state.audit,
+                            ids:_this.state.indexTable.selectedRowKeys
+                        },
+                        success(data){
+                            message.info('审批成功')
+                            update('set',addons(state,{
+                                Modal:{visAudit:{$set:false}}
+                            }))
+                            _this.initIndex();
+                        }
+                    })
+                  }}
+                  onCancel={()=>{
+                    update('set',addons(state,{
+                        Modal:{visAudit:{$set:false}}
+                    }))
+                  }}>  
+                    <Form.Item {...formItemLayout} label='备注'>
+                        <Input placeholder="请填写审批备注" onChange={(e)=>{
+                            state.audit.remark = e.target.value;
+                            _this.setState({})
+                        }} type="text" value={state.audit.remark}/>
+                    </Form.Item>
+                    <Form.Item {...formItemLayout} label='审核状态'>
+                        <Select onChange={(value)=>{
+                            state.audit.checkState = value;
+                            _this.setState({})
+                        }} style={{width:200}} value={state.audit.checkState}>
+                            <Select.Option value="1">待审核</Select.Option>
+                            <Select.Option value="2">通过</Select.Option>
+                            <Select.Option value="3">不通过</Select.Option>
+                        </Select>
+                    </Form.Item>
+                </Modal>
             </div>
         );
     }

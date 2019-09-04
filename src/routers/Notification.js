@@ -85,6 +85,7 @@ class component extends Component{
                     { title: '状态', dataIndex: 'status', key: 'status',render:(text)=>(
                         ['','待发布','已发布'][text]
                     )},
+                    { title: '阅读用户数量', dataIndex: 'readNumber', key: 'readNumber'}, 
                     { title: '审批时间', dataIndex: 'checkTime', key: 'checkTime'}, 
                     { title: '审核人', dataIndex: 'checkAdmin', key: 'checkAdmin'}, 
                     { title: '发布时间', dataIndex: 'time', key: 'time' },
@@ -211,7 +212,7 @@ class component extends Component{
             <div className="content">
                 <Breadcrumb>
                     <Breadcrumb.Item>权限管理</Breadcrumb.Item>
-                    <Breadcrumb.Item><a href="javascript:;">后台用户列表</a></Breadcrumb.Item>
+                    <Breadcrumb.Item><a href="javascript:;">推文管理</a></Breadcrumb.Item>
                 </Breadcrumb>
 
                 <div className="main-toolbar">
@@ -595,6 +596,7 @@ class component extends Component{
                             update('set',addons(state,{
                                 Modal:{visAudit:{$set:false}}
                             }))
+                            _this.initIndex();
                         }
                     })
                   }}
