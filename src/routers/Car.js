@@ -71,6 +71,9 @@ class component extends Component{
                     { title: '车辆管理员', dataIndex: 'adminName', key: 'adminName'}, 
                     { title: '审批时间', dataIndex: 'checkTime', key: 'checkTime'}, 
                     { title: '审核人', dataIndex: 'checkAdmin', key: 'checkAdmin'}, 
+                    { title: '审核状态', dataIndex: 'checkState', key: 'checkState',render:(text,record)=>(
+                        ['','待审核','审核通过','审核不通过'][text]
+                    )}, 
                     { title: 'GPS实时状态', dataIndex: 'gps', key: 'gps', render:(text,record)=>(
                         <span>
                             {_this.state.permission.details?

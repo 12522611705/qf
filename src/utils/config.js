@@ -9,6 +9,19 @@ export const config = {
 		exportCategoryExcel:'http://118.190.145.65:8888/flockpeak-shop/exportExcel/exportCategoryExcel',
 		exportGarbageLogExcel:'http://118.190.145.65:8888/flockpeak-shop/exportExcel/exportGarbageLogExcel'
 	},
+	// APP公众号管理
+	AdminApp:{
+		urls:{
+			details:'http://118.190.145.65:8888/flockpeak-shop/admin/adminApp/details',
+			update:'http://118.190.145.65:8888/flockpeak-shop/admin/adminApp/update'
+		}
+	},
+	// 后台环卫车每天数据统计
+	EveryDay:{
+		urls:{
+			sanitationCarEveryDay:'http://118.190.145.65:8888/flockpeak-shop/admin/sanitationCarAdmin/sanitationCarEveryDay'
+		}
+	},
 	// 投放时间断统计
 	Hour:{
 		urls:{

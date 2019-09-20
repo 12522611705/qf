@@ -281,7 +281,7 @@ class component extends Component{
                                 }
                              }))
                         }} style={{ width: 160, marginRight:10 }}>
-                            <Select.Option value="1">办公室回收箱</Select.Option>
+                            <Select.Option value="1">智能分类回收箱</Select.Option>
                             <Select.Option value="2">智能分类移动称</Select.Option>
                         </Select>
                     </span>

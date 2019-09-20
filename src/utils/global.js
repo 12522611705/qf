@@ -1,4 +1,5 @@
 
+import queryString from 'querystring';
 import { message } from 'antd';
 import emitter from '../utils/events';
 
@@ -82,8 +83,11 @@ const post = (options)=>{
 	    method:'post',
 	    // body: formatSearch(params),
 	    body: 'request=' + JSON.stringify(params).replace(/"/g,"'"),
+	    // body:queryString.stringify(params),
 	    // body: params,
 	    headers:{
+	    	// 'Accept':'*/*',
+	     	// 'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 	        'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
 	        'token': localStorage.getItem('token')
 	    }

@@ -246,7 +246,7 @@ class component extends Component{
                 <div className="main-toolbar">
                     <span className='x-box'>
                         <Input 
-                            addonBefore={<span>设备类型：</span>} 
+                            addonBefore={<span>智能分类回收箱：</span>} 
                             className="wrap-input-0"
                             style={{ width: 100 }}/>
                             <Select value={state.toolbarParams.type} onChange={(value)=>{
@@ -257,7 +257,7 @@ class component extends Component{
                                  }))
                             }} style={{ width: 120, marginRight:10 }}>
                                 <Select.Option value="1">办公室</Select.Option>
-                                <Select.Option value="2">移动称</Select.Option>
+                                <Select.Option value="2">智能分类移动称</Select.Option>
                             </Select>
                     </span>
                     

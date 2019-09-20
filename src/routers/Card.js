@@ -71,6 +71,9 @@ class component extends Component{
                     	['','待审核','待提交','审核通过','审核不通过'][text]
                     )}, 
                     { title: '审核人', dataIndex: 'adminName', key: 'adminName'}, 
+                    { title: '审核状态', dataIndex: 'checkState', key: 'checkState',render:(text,record)=>(
+                        ['','待审核','审核通过','审核不通过'][text]
+                    )}, 
                     { title: '更多详情', dataIndex: 'more', key: 'more',render:(text,record)=>(
                         <a style={{color:'#1155cc'}} onClick={()=>{
                             Modal.info({

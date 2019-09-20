@@ -67,7 +67,7 @@ class component extends Component{
                     { title: '时间段', dataIndex: 'name', key: 'name'}, 
                     { title: '用户总数', dataIndex: 'total', key: 'startTime'}, 
                     { title: '用户比例', dataIndex: 'proportion', key: 'proportion',render:(text)=>(
-                        text.toFixed(4)+'%'
+                        text.toFixed(2)+'%'
                     )}
                 ],
                 data:[]

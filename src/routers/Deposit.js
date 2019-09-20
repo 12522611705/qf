@@ -85,6 +85,9 @@ class component extends Component{
                     { title: '提交时间', dataIndex: 'careateTime', key: 'careateTime'}, 
                     { title: '审核时间', dataIndex: 'toAccountTime', key: 'toAccountTime'}, 
                     { title: '审核人', dataIndex: 'name', key: 'name'}, 
+                    { title: '审核状态', dataIndex: 'checkState', key: 'checkState',render:(text,record)=>(
+                        ['','待审核','审核通过','审核不通过'][text]
+                    )}, 
                     { title: '交易状态', dataIndex: 'state', key: 'state',render:(text)=>(
                         ['','提交申请成功','提现成功','提现失败','审核中','取消提现'][text]
                     )}

@@ -44,6 +44,7 @@ class component extends Component{
         this.state = {
             permission:{
                 add:false,
+                importExcelUser:true,
                 update:false,
                 list:false,
                 audit:false
@@ -79,6 +80,10 @@ class component extends Component{
                     { title: '操作人员ID', dataIndex: 'adminRoleId', key: 'adminRoleId'}, 
                     { title: '审批时间', dataIndex: 'checkTime', key: 'checkTime'}, 
                     { title: '审核人', dataIndex: 'checkAdmin', key: 'checkAdmin'}, 
+
+                    { title: '审核状态', dataIndex: 'checkState', key: 'checkState',render:(text,record)=>(
+                        ['','待审核','审核通过','审核不通过'][text]
+                    )}, 
                     { title: '查看详情', dataIndex: 'operation', key: 'operation', render:(text,record)=>(
                         !_this.state.permission.details?
                         <span>
@@ -445,7 +450,8 @@ class component extends Component{
                                 remark:record.remark,
                                 tel:record.tel,
                                 type:record.type,
-                                imei:record.imei
+                                imei:record.imei,
+                                garbageIndex:record.garbageIndex
                             }
                             _this.setState({});
                         }}>修改</Button>:''
@@ -458,6 +464,24 @@ class component extends Component{
                     <Button style={{marginRight:10}} type="primary" onClick={()=>{
                         window.open(config.urls.exportCategoryExcel+'?token='+localStorage.getItem('token')+formatSearch(state.toolbarParams));
                     }}>数据导出</Button>
+                    {
+                        state.permission.importExcelUser ?
+                        <Upload name="file" 
+                            style={{display:'inline'}}
+                            className="myupdate"
+                            headers={{
+                                token:localStorage.getItem('token')
+                            }}
+                            action="http://118.190.145.65:8888/flockpeak-shop/admin/garbageCategoryAdmin/importExcelGarbageCategory" 
+                            onChange={(info)=>{
+                                if(info.file.response && info.file.response.code) {
+                                    message.info(info.file.response.msg);
+                                }
+                                _this.initIndex();
+                            }}>
+                            <Button style={{marginRight:10}} type="primary">数据导入</Button>
+                        </Upload>:''
+                    }
                     {
                         state.permission.audit ?
                         <Button onClick={()=>{
@@ -555,6 +579,11 @@ class component extends Component{
                         <Input onChange={(e)=>{
                             _this.updateForm(e.target.value,'imei')
                         }} type="text" value={state.form.imei}/>
+                    </Form.Item>
+                    <Form.Item {...formItemLayout} label='分类位置'>
+                        <Input onChange={(e)=>{
+                            _this.updateForm(e.target.value,'garbageIndex')
+                        }} type="text" value={state.form.garbageIndex}/>
                     </Form.Item>
                 </Modal>
 

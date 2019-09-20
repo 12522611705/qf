@@ -51,6 +51,10 @@ import Day from './routers/Day';
 import Hour from './routers/Hour';
 // 查询设备管理
 import UserAge from './routers/UserAge';
+// 环卫车每天数据统计
+import EveryDay from './routers/EveryDay';
+// APP公众号管理
+import MyApp from './routers/App';
 
 
 ReactDOM.render((
@@ -82,6 +86,10 @@ ReactDOM.render((
 				<Route path="/Day"							component={Day}/>
 				<Route path="/Hour"							component={Hour}/>
 				<Route path="/UserAge"						component={UserAge}/>
+
+				
+				<Route path="/EveryDay"						component={EveryDay}/>
+				<Route path="/App"							component={MyApp}/>
 
 			</App>
 		</Switch>

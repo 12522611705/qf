@@ -69,7 +69,7 @@ class component extends Component{
                 head:[
                     { title: 'ID', dataIndex: 'id', key: 'id'}, 
                     { title: '智能分类回收箱', dataIndex: 'type', key: 'type',render:(text)=>(
-                        ['','办公室回收箱','智能分类移动称'][text]
+                        ['','智能分类回收箱','智能分类移动称'][text]
                     )}, 
                     { title: '设备编号', dataIndex: 'number', key: 'number'}, 
                     { title: 'IMEI号', dataIndex: 'imei', key: 'imei'}, 
@@ -105,7 +105,7 @@ class component extends Component{
                                     let label = new BMap.Label(`
                                         <div>
                                             <p>设备编号：${record.number}</p>
-                                            <p>智能分类回收箱：${['','办公室回收箱','智能分类移动称'][record.type]||''}</p>
+                                            <p>智能分类回收箱：${['','智能分类回收箱','智能分类移动称'][record.type]||''}</p>
                                             <p>权属单位：${record.company}</p>
                                             <p>今日收集垃圾量：${record.weight||''}</p>
                                             <p>实时位置：${record.community}</p>
@@ -125,6 +125,10 @@ class component extends Component{
                     )}, 
                     { title: '审批时间', dataIndex: 'checkTime', key: 'checkTime'}, 
                     { title: '审核人', dataIndex: 'checkAdmin', key: 'checkAdmin'}, 
+                    
+                    { title: '审核状态', dataIndex: 'checkState', key: 'checkState',render:(text,record)=>(
+                        ['','待审核','审核通过','审核不通过'][text]
+                    )}, 
                     { title: '设备管理员', dataIndex: 'adminRole', key: 'adminRole'}, 
                     { title: '更多信息', dataIndex: 'operation', key: 'operation', render:(text,record)=>(
                         !_this.state.permission.details?
@@ -356,7 +360,7 @@ class component extends Component{
                             }))
                         }}>
                             <Select.Option value="">全部</Select.Option>
-                            <Select.Option value="1">办公室回收箱</Select.Option>
+                            <Select.Option value="1">智能分类回收箱</Select.Option>
                             <Select.Option value="2">智能分类移动称</Select.Option>
                         </Select>
                     </span>
@@ -610,7 +614,7 @@ class component extends Component{
                         <Select onChange={(value)=>{
                             _this.updateForm(value,'type')
                         }} style={{width:200}} value={state.form.type}>
-                            <Select.Option value="1">办公室</Select.Option>
+                            <Select.Option value="1">智能分类回收箱</Select.Option>
                             <Select.Option value="2">智能分类移动称</Select.Option>
                         </Select>
                     </Form.Item>

@@ -227,6 +227,9 @@ class component extends Component{
 
                     { title: '审批时间', dataIndex: 'checkTime', key: 'checkTime'}, 
                     { title: '审核人', dataIndex: 'checkAdmin', key: 'checkAdmin'}, 
+                    { title: '审核状态', dataIndex: 'checkState', key: 'checkState',render:(text,record)=>(
+                        ['','待审核','审核通过','审核不通过'][text]
+                    )}, 
                     { title: '更多信息', dataIndex: 'more', key: 'more', render:(text,record)=>(
                         _this.state.permission.userAdminDetails ?
                         <a style={{color:'#1155cc'}} onClick={()=>{
@@ -731,63 +734,55 @@ class component extends Component{
                     </span>
                 </div>
                 <div className="main-toolbar">
-                    <Row>
-                        <Col span={6}>
-                            <Input onChange={(e)=>{
-                                update('set',addons(state,{
-                                    toolbarParams:{
-                                        plot:{
-                                            $set:e.target.value
-                                        }    
-                                    }
-                                }))
-                            }} value={state.toolbarParams.plot} 
-                            placeholder="请输入小区名字"
-                            addonBefore={<span>小区名字：</span>} 
-                            style={{ width: 300, marginRight: 10 }} />
-                        </Col>
-                        <Col span={6}>
-                            <InputGroup compact style = {{textAlign:'center'}}>
-                                <span style={{position:'relative',top:6}}>单元房号：</span>
-                                <Input style={{width:40}} type="text" 
-                                    value={state.toolbarParams.ridgepole} onChange={(e)=>{
-                                    update('set',addons(state,{
-                                        toolbarParams:{
-                                            ridgepole:{
-                                                $set:e.target.value
-                                            }    
-                                        }
-                                    }))
-                                }}/>
-                                <span style={{position:'relative',top:6,padding:'0px 10px'}}>栋</span>
-                                <Input style={{width:40}} type="text" 
-                                    value={state.toolbarParams.room} onChange={(e)=>{
-                                    update('set',addons(state,{
-                                        toolbarParams:{
-                                            room:{
-                                                $set:e.target.value
-                                            }    
-                                        }
-                                    }))
-                                }}/>
-                                <span style={{position:'relative',top:6,padding:'0px 10px'}}>房</span>
-                            </InputGroup>
-                        </Col>
-                        <Col span={6}>
-                            <Input onChange={(e)=>{
-                                update('set',addons(state,{
-                                    toolbarParams:{
-                                        companyName:{
-                                            $set:e.target.value
-                                        }    
-                                    }
-                                }))
-                            }} value={state.toolbarParams.companyName} 
-                            placeholder="请输入物业公司的名字"
-                            addonBefore={<span>所属物业公司：</span>} 
-                            style={{ width: 300, marginRight: 10 }} />
-                        </Col>
-                    </Row>
+                    <Input onChange={(e)=>{
+                        update('set',addons(state,{
+                            toolbarParams:{
+                                plot:{
+                                    $set:e.target.value
+                                }    
+                            }
+                        }))
+                    }} value={state.toolbarParams.plot} 
+                    placeholder="请输入小区名字"
+                    addonBefore={<span>小区名字：</span>} 
+                    style={{ width: 300, marginRight: 10 }} />
+                    <InputGroup compact style = {{textAlign:'center',display: 'inline-block',width: 'auto'}}>
+                        <span style={{position:'relative',top:6}}>单元房号：</span>
+                        <Input style={{width:40}} type="text" 
+                            value={state.toolbarParams.ridgepole} onChange={(e)=>{
+                            update('set',addons(state,{
+                                toolbarParams:{
+                                    ridgepole:{
+                                        $set:e.target.value
+                                    }    
+                                }
+                            }))
+                        }}/>
+                        <span style={{position:'relative',top:6,padding:'0px 10px'}}>栋</span>
+                        <Input style={{width:40}} type="text" 
+                            value={state.toolbarParams.room} onChange={(e)=>{
+                            update('set',addons(state,{
+                                toolbarParams:{
+                                    room:{
+                                        $set:e.target.value
+                                    }    
+                                }
+                            }))
+                        }}/>
+                        <span style={{position:'relative',top:6,padding:'0px 10px'}}>房</span>
+                    </InputGroup>
+                    <Input onChange={(e)=>{
+                        update('set',addons(state,{
+                            toolbarParams:{
+                                companyName:{
+                                    $set:e.target.value
+                                }    
+                            }
+                        }))
+                    }} value={state.toolbarParams.companyName} 
+                    placeholder="请输入物业公司的名字"
+                    addonBefore={<span>所属物业公司：</span>} 
+                    style={{ width: 300, marginRight: 10 }} />
                     
                 </div>
                 

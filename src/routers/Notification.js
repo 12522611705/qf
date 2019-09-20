@@ -88,6 +88,10 @@ class component extends Component{
                     { title: '阅读用户数量', dataIndex: 'readNumber', key: 'readNumber'}, 
                     { title: '审批时间', dataIndex: 'checkTime', key: 'checkTime'}, 
                     { title: '审核人', dataIndex: 'checkAdmin', key: 'checkAdmin'}, 
+                    
+                    { title: '审核状态', dataIndex: 'checkState', key: 'checkState',render:(text,record)=>(
+                        ['','待审核','审核通过','审核不通过'][text]
+                    )}, 
                     { title: '发布时间', dataIndex: 'time', key: 'time' },
                 ],
                 data:[]
@@ -531,7 +535,7 @@ class component extends Component{
                     <Form.Item {...formItemLayout} label="推文内容" >
                         <div style = {{border:'1px solid #ddd'}}>
                             <BraftEditor
-                                value={state.add.text}
+                                value={state.text}
                                 onChange={_this.handleEditorChange.bind(_this)}
                                 media={{
                                     accepts: {audio:false,video:false},
@@ -573,7 +577,7 @@ class component extends Component{
                                         xhr.addEventListener("abort", errorFn, false)
                                         fd.append('file', param.file)
                                         xhr.open('POST', serverURL, true)
-                                        xhr.send(fd)
+                                        xhr.send(fd);
                                     }
                                 }}
                                 onSave={_this.submitContent.bind(_this)}/>
